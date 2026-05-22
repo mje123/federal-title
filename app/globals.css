@@ -13,12 +13,12 @@
   --color-primary-800: #1e3573;
   --color-primary-900: #0c1e47;
 
-  --color-accent-50: #ecfdf5;
-  --color-accent-100: #d1fae5;
-  --color-accent-400: #34d399;
-  --color-accent-500: #10b981;
-  --color-accent-600: #059669;
-  --color-accent-700: #047857;
+  --color-accent-50: #fdf2f2;
+  --color-accent-100: #fce4e3;
+  --color-accent-400: #b85754;
+  --color-accent-500: #8b2422;
+  --color-accent-600: #781f1c;
+  --color-accent-700: #671b18;
 
   /* Warm neutrals */
   --color-neutral-50: #fafaf9;
@@ -61,7 +61,7 @@
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.15);
   --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.18);
   --shadow-primary: 0 8px 24px rgba(30, 64, 175, 0.2);
-  --shadow-accent: 0 8px 24px rgba(16, 185, 129, 0.2);
+  --shadow-accent: 0 8px 24px rgba(120, 31, 28, 0.2);
 
   /* Animations */
   --animate-fade-in: fadeIn 0.6s ease-out;

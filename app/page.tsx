@@ -1,12 +1,8 @@
 import {
-  Scale,
   DollarSign,
   Shield,
-  Smartphone,
-  MapPin,
   Award,
   CheckCircle2,
-  AlertTriangle,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Hero } from '@/components/sections/Hero';
@@ -27,22 +23,22 @@ export const metadata: Metadata = {
 
 const features = [
   {
-    icon: <Smartphone className="h-6 w-6" />,
+    image: { src: '/images/features/zoccam-logo.png', alt: 'ZOCCAM® - Driving Success Not Checks' },
     title: 'Mobile Fund Deliveries',
     description:
       'Send your earnest money checks quickly and securely, directly from your smart phone.',
     link: { text: 'Learn More', href: '/homebuyers' },
   },
   {
-    icon: <Scale className="h-6 w-6" />,
+    image: { src: '/images/features/real-online-closings.jpg', alt: 'REAL Online Closings - Powered by Stavvy' },
     title: 'Remote, Digital Closings',
     description:
       'Legally close with Federal Title attorneys, from any smart device, any time, within minutes.',
-    link: { text: 'How It Works', href: '/homebuyers/remote-closing' },
+    link: { text: 'How It Works', href: '/sellers/remote-closing' },
   },
   {
-    icon: <AlertTriangle className="h-6 w-6" />,
-    title: 'Red Alert: Wire Fraud Prevention',
+    image: { src: '/images/features/wire-fraud.jpg', alt: 'Red Alert: Wire Fraud Prevention', rounded: true },
+    title: 'Red Alert: Wire Fraud',
     description:
       'Protect yourself from wire fraud with our industry-leading security protocols and verification procedures.',
     link: { text: 'Protect Yourself »', href: '/realsafe' },
@@ -353,6 +349,34 @@ export default function HomePage() {
                 </span>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Video Section */}
+      <section className="py-20 bg-[var(--color-neutral-100)]">
+        <div className="container mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+            <div>
+              <h2 className="text-3xl lg:text-4xl font-bold text-[var(--color-primary-900)] mb-4" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                Closing Costs Explained...
+              </h2>
+              <p className="text-[var(--color-neutral-600)] text-lg leading-relaxed mb-6">
+                Closing costs include taxes, lender fees and title fees that a homebuyer pays at settlement. Watch this video to prepare for the process.
+              </p>
+              <Link href="/blog" className="text-[var(--color-primary-700)] font-medium hover:text-[var(--color-primary-900)] transition-colors">
+                Browse all videos
+              </Link>
+            </div>
+            <div className="relative aspect-video rounded-xl overflow-hidden shadow-xl">
+              <iframe
+                src="https://www.youtube.com/embed/fifp2mLGoWc"
+                title="Closing Costs Explained Visually"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
           </div>
         </div>
       </section>

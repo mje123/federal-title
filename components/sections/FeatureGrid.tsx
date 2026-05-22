@@ -1,13 +1,15 @@
 'use client';
 
 import { useRef, type ReactNode } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Feature {
-  icon: ReactNode;
+  icon?: ReactNode;
+  image?: { src: string; alt: string; rounded?: boolean };
   title: string;
   description: string;
   link?: { text: string; href: string };
@@ -86,9 +88,21 @@ export function FeatureGrid({
               transition={{ duration: 0.5, delay: i * 0.08 }}
               className="group bg-white rounded-xl border border-[var(--color-neutral-200)] p-8 hover:-translate-y-1 hover:shadow-[var(--shadow-lg)] transition-all duration-300 cursor-default"
             >
-              <div className="h-12 w-12 rounded-lg bg-[var(--color-primary-100)] text-[var(--color-primary-700)] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                {feature.icon}
-              </div>
+              {feature.image ? (
+                <div className={cn("mb-5 flex items-center justify-center", feature.image.rounded ? "h-20 w-20 mx-auto" : "h-14")}>
+                  <Image
+                    src={feature.image.src}
+                    alt={feature.image.alt}
+                    width={feature.image.rounded ? 80 : 160}
+                    height={feature.image.rounded ? 80 : 56}
+                    className={cn("object-contain", feature.image.rounded && "rounded-full")}
+                  />
+                </div>
+              ) : (
+                <div className="h-12 w-12 rounded-lg bg-[var(--color-primary-100)] text-[var(--color-primary-700)] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+                  {feature.icon}
+                </div>
+              )}
 
               <h3 className="text-lg font-semibold text-[var(--color-neutral-900)] mb-2.5">
                 {feature.title}

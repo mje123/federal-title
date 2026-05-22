@@ -1,118 +1,145 @@
 import Link from 'next/link';
-import { CTA } from '@/components/sections/CTA';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Real Estate Blog | Federal Title & Escrow Company',
-  description:
-    'Expert real estate and title insurance articles from Federal Title attorneys. DC, Maryland & Virginia closing insights, guides, and news.',
+  description: 'Expert insights on DC, Maryland & Virginia real estate, title insurance, closing costs, and more from the attorneys at Federal Title.',
 };
 
-const posts = [
-  {
-    title: 'Federal Title Featured by Redfin',
-    author: 'Luke Bacigalupo',
-    date: 'May 6, 2026',
-    excerpt:
-      "We're excited to share that Federal Title & Escrow Company was recently featured in a Redfin article discussing one of the most overlooked — but critical — steps in the closing process: the final walk-through. The final walk-through is not just a formality. It's the buyer's last opportunity to confirm the property's condition before the keys are handed over.",
-    href: '/blog/federal-title-featured-by-redfin',
-  },
-  {
-    title: 'Fear Not! You Did NOT Just Sell Your House for $10!',
-    author: 'Federal Title',
-    date: 'March 31, 2026',
-    excerpt:
-      "Virginia deeds often say something like the following: 'That for and in consideration of TEN DOLLARS ($10.00), cash in hand paid, and other good and valuable considerations, the receipt and sufficiency of which are hereby acknowledged...' Does this language mean your house was sold for $10?",
-    href: '/blog/virginia-deed-ten-dollars',
-  },
-  {
-    title: 'NVAR Contract – What Day is It?!',
-    author: 'Federal Title',
-    date: 'March 26, 2026',
-    excerpt:
-      "Our attorney team recently received two great questions about the Northern Virginia Association of Realtors (NVAR) Contract relating to HOA deadlines and what counts as a 'Day.' Scenario: We Ratified at 9pm on 2/11/26. EMD delivery is required 3 Business Days from Ratification.",
-    href: '/blog/nvar-contract-what-day-is-it',
-  },
-  {
-    title: "DC's New TOPA Law – Rebalancing Expectations for Neighbors, Tenants, and Landlords (RENTAL) Act",
-    author: 'Federal Title',
-    date: 'March 5, 2026',
-    excerpt:
-      "Washington, DC has officially entered a new era of tenant purchase law with sweeping changes approved by the DC Council.",
-    href: '/blog/dc-topa-law-rental-act',
-  },
-  {
-    title: 'Using a Power of Attorney with a Trust: Q & A for Sellers and Listing Agents',
-    author: 'Todd Ewing',
-    date: 'March 3, 2026',
-    excerpt:
-      "Transactions involving trusts and Powers of Attorney come up regularly — and they're often misunderstood. Here's what sellers and listing agents need to know.",
-    href: '/blog/power-of-attorney-trust',
-  },
-];
+const WP_API = 'https://www.federaltitle.com/wp-json/wp/v2';
+const PER_PAGE = 12;
 
-export default function BlogPage() {
+interface WPPost {
+  slug: string;
+  title: { rendered: string };
+  excerpt: { rendered: string };
+  date: string;
+  _embedded?: {
+    author?: Array<{ name: string }>;
+    'wp:featuredmedia'?: Array<{ source_url: string }>;
+  };
+}
+
+async function getPosts(page = 1): Promise<{ posts: WPPost[]; total: number; totalPages: number }> {
+  try {
+    const res = await fetch(
+      `${WP_API}/posts?per_page=${PER_PAGE}&page=${page}&_embed=author,wp:featuredmedia`,
+      { next: { revalidate: 3600 } }
+    );
+    const total = parseInt(res.headers.get('x-wp-total') ?? '0', 10);
+    const totalPages = parseInt(res.headers.get('x-wp-totalpages') ?? '1', 10);
+    const posts = await res.json();
+    return { posts, total, totalPages };
+  } catch {
+    return { posts: [], total: 0, totalPages: 0 };
+  }
+}
+
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const { page: pageParam } = await searchParams;
+  const currentPage = Math.max(1, parseInt(pageParam ?? '1', 10));
+  const { posts, total, totalPages } = await getPosts(currentPage);
+
   return (
     <>
-      <section className="bg-[var(--color-primary-900)] text-white py-20">
-        <div className="container mx-auto px-6 text-center">
+      <section className="bg-[var(--color-primary-900)] py-16 lg:py-20">
+        <div className="container mx-auto px-6 lg:px-8 text-center">
           <p className="text-[var(--color-accent-400)] font-semibold text-sm uppercase tracking-widest mb-3">
-            Knowledge Base
+            From the Attorneys
           </p>
           <h1
-            className="text-5xl lg:text-6xl font-bold mb-4 font-display"
+            className="text-4xl lg:text-5xl font-bold text-white mb-4"
             style={{ fontFamily: 'var(--font-playfair), serif' }}
           >
             Real Estate Blog
           </h1>
-          <p className="text-xl text-white/70 max-w-2xl mx-auto">
-            Expert insights on title insurance, real estate closings, and the DC–Maryland–Virginia
-            market — written by Federal Title attorneys.
+          <p className="text-white/70 text-lg max-w-2xl mx-auto">
+            Expert insights on DC, Maryland & Virginia real estate, title insurance, closing costs, and more.{total > 0 && ` ${total} articles and counting.`}
           </p>
         </div>
       </section>
 
-      <section className="py-20 bg-[var(--color-neutral-50)]">
+      <section className="py-16 lg:py-20 bg-[var(--color-neutral-50)]">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto space-y-8">
-            {posts.map((post) => (
-              <article
-                key={post.href}
-                className="bg-white rounded-xl border border-[var(--color-neutral-200)] p-8 hover:border-[var(--color-primary-200)] hover:shadow-md transition-all"
-              >
-                <div className="flex items-center gap-3 text-xs text-[var(--color-neutral-400)] mb-3">
-                  <span>{post.author}</span>
-                  <span>·</span>
-                  <time>{post.date}</time>
-                </div>
-                <h2
-                  className="text-xl font-bold text-[var(--color-primary-900)] mb-3 leading-snug hover:text-[var(--color-primary-700)] transition-colors"
-                  style={{ fontFamily: 'var(--font-playfair), serif' }}
-                >
-                  <Link href={post.href}>{post.title}</Link>
-                </h2>
-                <p className="text-[var(--color-neutral-600)] leading-relaxed mb-5">
-                  {post.excerpt}
-                </p>
+          {posts.length === 0 ? (
+            <p className="text-center text-[var(--color-neutral-500)]">Unable to load posts. Please try again.</p>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {posts.map((post) => {
+                const title = post.title.rendered.replace(/&#(\d+);/g, (_, c) => String.fromCharCode(parseInt(c)));
+                const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 160);
+                const author = post._embedded?.author?.[0]?.name ?? 'Federal Title';
+                const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+                const date = new Date(post.date).toLocaleDateString('en-US', {
+                  year: 'numeric', month: 'short', day: 'numeric',
+                });
+
+                return (
+                  <Link
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
+                    className="group bg-white rounded-xl border border-[var(--color-neutral-200)] overflow-hidden hover:border-[var(--color-accent-400)] hover:shadow-md transition-all"
+                  >
+                    {image && (
+                      <div className="aspect-[16/9] overflow-hidden">
+                        <img
+                          src={image}
+                          alt={title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 text-xs text-[var(--color-neutral-500)] mb-3">
+                        <time>{date}</time>
+                        <span>·</span>
+                        <span>{author}</span>
+                      </div>
+                      <h2 className="text-lg font-semibold text-[var(--color-primary-900)] mb-2 group-hover:text-[var(--color-accent-600)] transition-colors leading-snug line-clamp-2">
+                        {title}
+                      </h2>
+                      <p className="text-sm text-[var(--color-neutral-600)] leading-relaxed line-clamp-3">
+                        {excerpt}
+                      </p>
+                      <span className="inline-block mt-4 text-sm font-medium text-[var(--color-accent-600)] group-hover:underline">
+                        Read more →
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2">
+              {currentPage > 1 && (
                 <Link
-                  href={post.href}
-                  className="text-sm font-semibold text-[var(--color-primary-700)] hover:text-[var(--color-primary-900)] transition-colors"
+                  href={`/blog?page=${currentPage - 1}`}
+                  className="h-10 px-4 rounded-lg border border-[var(--color-neutral-300)] text-sm font-medium text-[var(--color-primary-700)] hover:bg-[var(--color-neutral-100)] transition-colors"
                 >
-                  Read more →
+                  ← Previous
                 </Link>
-              </article>
-            ))}
-          </div>
+              )}
+              <span className="text-sm text-[var(--color-neutral-500)] px-4">
+                Page {currentPage} of {totalPages}
+              </span>
+              {currentPage < totalPages && (
+                <Link
+                  href={`/blog?page=${currentPage + 1}`}
+                  className="h-10 px-4 rounded-lg border border-[var(--color-neutral-300)] text-sm font-medium text-[var(--color-primary-700)] hover:bg-[var(--color-neutral-100)] transition-colors"
+                >
+                  Next →
+                </Link>
+              )}
+            </div>
+          )}
         </div>
       </section>
-
-      <CTA
-        title="Questions about your closing?"
-        description="Our attorneys answer real estate questions every day. Get a quote or give us a call."
-        primaryAction={{ text: 'Get a Free Quote', href: '/quick-quote' }}
-        secondaryAction={{ text: 'Contact Us', href: '/contact' }}
-        background="gradient"
-      />
     </>
   );
 }

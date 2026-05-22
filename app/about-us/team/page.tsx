@@ -86,13 +86,19 @@ export default function TeamPage() {
           <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-6">
             {staff.map((member) => (
               <div key={member.slug} className="text-center group">
-                <div className="relative w-24 h-24 mx-auto rounded-full overflow-hidden mb-3 bg-[var(--color-neutral-100)]">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  />
+                <div className="relative w-24 h-24 mx-auto rounded-full overflow-hidden mb-3 bg-[var(--color-neutral-200)] flex items-center justify-center">
+                  {member.image ? (
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <svg className="w-12 h-12 text-[var(--color-neutral-400)]" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                    </svg>
+                  )}
                 </div>
                 <h3 className="font-semibold text-[var(--color-neutral-900)] text-sm leading-tight">
                   {member.name}

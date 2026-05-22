@@ -47,7 +47,7 @@ export function Hero({
             priority
           />
           {overlay && (
-            <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary-900)]/90 via-[var(--color-primary-900)]/70 to-[var(--color-primary-900)]/40" />
+            <div className="absolute inset-0 bg-[var(--color-primary-900)]/60" />
           )}
         </div>
       ) : gradient ? (
@@ -105,7 +105,10 @@ export function Hero({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-lg lg:text-xl text-white/80 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+                className={cn(
+                  "text-lg lg:text-xl text-white/80 mb-8 max-w-2xl leading-relaxed",
+                  image && image.position !== 'background' ? 'mx-auto lg:mx-0' : 'mx-auto'
+                )}
               >
                 {description}
               </motion.p>

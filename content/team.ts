@@ -53,7 +53,7 @@ export const teamMembers: TeamMember[] = [
     name: 'Tabitha Frenke',
     title: 'Settlement Processor',
     slug: 'tabitha-frenke',
-    image: '/images/team/headshot-1-4-dd8cabd9.jpeg',
+    image: '',
   },
   {
     name: 'Daniel Cox',
@@ -71,6 +71,6 @@ export const teamMembers: TeamMember[] = [
     name: 'Jessika Roberts',
     title: 'Post-Closing Assistant',
     slug: 'jessika-roberts',
-    image: '/images/team/image001-a6f61eec.jpeg',
+    image: '',
   },
 ];
