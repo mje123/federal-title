@@ -10,6 +10,7 @@ const staticPages: MetadataRoute.Sitemap = [
   { url: `${BASE}/agents`, changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE}/agents/marketing-downloads`, changeFrequency: 'monthly', priority: 0.6 },
   { url: `${BASE}/blog`, changeFrequency: 'daily', priority: 0.8 },
+  { url: `${BASE}/closing-docs`, changeFrequency: 'monthly', priority: 0.7 },
   { url: `${BASE}/closing-guides`, changeFrequency: 'monthly', priority: 0.7 },
   { url: `${BASE}/contact`, changeFrequency: 'yearly', priority: 0.7 },
   { url: `${BASE}/dc-first-time-homebuyer`, changeFrequency: 'monthly', priority: 0.8 },

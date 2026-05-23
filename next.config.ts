@@ -28,6 +28,8 @@ const nextConfig: NextConfig = {
       { source: '/title-fees', destination: '/homebuying/fees', permanent: true },
       // Quick quote → external guaranteed quote tool
       { source: '/quick-quote', destination: 'https://federal-title-frontend.onrender.com/public/guaranteed-quote', permanent: false },
+      // Order → external order tool
+      { source: '/order', destination: 'https://tools.federaltitle.com/titleagents/orderservicen.aspx', permanent: false },
     ];
   },
 };
