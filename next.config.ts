@@ -26,6 +26,8 @@ const nextConfig: NextConfig = {
       { source: '/careers', destination: '/about-us/careers', permanent: true },
       { source: '/fees', destination: '/homebuying/fees', permanent: true },
       { source: '/title-fees', destination: '/homebuying/fees', permanent: true },
+      // Quick quote → external guaranteed quote tool
+      { source: '/quick-quote', destination: 'https://federal-title-frontend.onrender.com/public/guaranteed-quote', permanent: false },
     ];
   },
 };

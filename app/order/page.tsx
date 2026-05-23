@@ -1,90 +1,22 @@
-'use client';
-
-import { useState } from 'react';
 import Link from 'next/link';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
+import type { Metadata } from 'next';
 
-const transactionTypes = [
-  { value: 'purchase-buyer', label: 'Purchase – Buyer Side' },
-  { value: 'purchase-seller', label: 'Purchase – Seller Side' },
-  { value: 'purchase-both', label: 'Purchase – Both Sides' },
-  { value: 'refinance', label: 'Refinance' },
-  { value: 'deed-transfer', label: 'Deed Transfer' },
-];
+export const metadata: Metadata = {
+  title: 'Order Closing Services | Federal Title & Escrow Company',
+  description:
+    'Order title and settlement services online. Receive up to $750 in REAL Credits plus 2 hours of free REALegal™ consultation when you order through Federal Title.',
+};
 
-const jurisdictions = [
-  { value: 'dc', label: 'Washington, DC' },
-  { value: 'md', label: 'Maryland' },
-  { value: 'va', label: 'Virginia' },
+const included = [
+  'Up to $750 REAL Credit on settlement fee',
+  '2 hours of free REALegal™ consultation',
+  'Closing process tracker',
+  'Complete cash-to-close picture',
+  'Attorney-led closing',
 ];
 
 export default function OrderPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubmitting(true);
-    const form = e.currentTarget;
-    const data = {
-      firstName: (form.querySelector('[name="firstName"]') as HTMLInputElement)?.value,
-      lastName: (form.querySelector('[name="lastName"]') as HTMLInputElement)?.value,
-      email: (form.querySelector('[name="email"]') as HTMLInputElement)?.value,
-      phone: (form.querySelector('[name="phone"]') as HTMLInputElement)?.value,
-      transactionType: (form.querySelector('[name="transactionType"]') as HTMLSelectElement)?.value,
-      jurisdiction: (form.querySelector('[name="jurisdiction"]') as HTMLSelectElement)?.value,
-      closingDate: (form.querySelector('[name="closingDate"]') as HTMLInputElement)?.value,
-      propertyAddress: (form.querySelector('[name="propertyAddress"]') as HTMLInputElement)?.value,
-      notes: (form.querySelector('[name="notes"]') as HTMLTextAreaElement)?.value,
-    };
-    try {
-      const res = await fetch('/api/order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error('Failed');
-      setSubmitted(true);
-    } catch {
-      alert('Something went wrong. Please call us at (202) 362-1500.');
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  if (submitted) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center bg-[var(--color-neutral-50)]">
-        <div className="max-w-lg mx-auto text-center px-6">
-          <div className="h-16 w-16 rounded-full bg-[var(--color-accent-100)] flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="h-8 w-8 text-[var(--color-accent-600)]" />
-          </div>
-          <h2
-            className="text-3xl font-bold text-[var(--color-primary-900)] mb-4"
-            style={{ fontFamily: 'var(--font-playfair), serif' }}
-          >
-            Order Received!
-          </h2>
-          <p className="text-[var(--color-neutral-600)] text-lg mb-6">
-            Thank you for ordering with Federal Title. Our team will reach out within 1 business hour to confirm your order and next steps.
-          </p>
-          <p className="text-sm text-[var(--color-neutral-500)] mb-8">
-            Questions? Call us at{' '}
-            <a href="tel:+12023621500" className="text-[var(--color-primary-700)] font-medium">
-              (202) 362-1500
-            </a>
-          </p>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[var(--color-primary-700)] text-white font-semibold hover:bg-[var(--color-primary-900)] transition-colors"
-          >
-            Return Home
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       <section className="bg-[var(--color-primary-900)] text-white py-16">
@@ -107,143 +39,44 @@ export default function OrderPage() {
       <section className="py-16 bg-[var(--color-neutral-50)]">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-10">
+            {/* Main CTA */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-2xl border border-[var(--color-neutral-200)] p-8 lg:p-10">
                 <h2
-                  className="text-2xl font-bold text-[var(--color-primary-900)] mb-8"
+                  className="text-2xl font-bold text-[var(--color-primary-900)] mb-4"
                   style={{ fontFamily: 'var(--font-playfair), serif' }}
                 >
-                  Your Closing Order
+                  Ready to Place Your Order?
                 </h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1.5">
-                        First Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1.5">
-                        Last Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
-                      />
-                    </div>
-                  </div>
+                <p className="text-[var(--color-neutral-600)] mb-8 leading-relaxed">
+                  Click below to open our secure order form. You&apos;ll receive a confirmation within 1 business hour, and your REAL Credit will be automatically applied at closing.
+                </p>
 
-                  <div className="grid md:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1.5">
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1.5">
-                        Phone
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
-                      />
-                    </div>
-                  </div>
+                <a
+                  href="https://tools.federaltitle.com/titleagents/orderservicen.aspx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 w-full justify-center py-4 px-6 rounded-lg bg-[var(--color-accent-600)] text-white font-semibold text-base hover:bg-[var(--color-accent-700)] transition-colors shadow-sm"
+                >
+                  Place My Order
+                  <ArrowRight className="h-5 w-5" />
+                </a>
 
-                  <div>
-                    <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1.5">
-                      Transaction Type *
-                    </label>
-                    <select
-                      name="transactionType"
-                      required
-                      className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all bg-white"
-                    >
-                      <option value="">Select transaction type</option>
-                      {transactionTypes.map((t) => (
-                        <option key={t.value} value={t.value}>{t.label}</option>
-                      ))}
-                    </select>
-                  </div>
+                <p className="text-xs text-center text-[var(--color-neutral-500)] mt-4">
+                  Secure order form. Your REAL Credit will be applied at closing.
+                </p>
 
-                  <div className="grid md:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1.5">
-                        Jurisdiction *
-                      </label>
-                      <select
-                        name="jurisdiction"
-                        required
-                        className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all bg-white"
-                      >
-                        <option value="">Select jurisdiction</option>
-                        {jurisdictions.map((j) => (
-                          <option key={j.value} value={j.value}>{j.label}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1.5">
-                        Estimated Closing Date
-                      </label>
-                      <input
-                        type="date"
-                        name="closingDate"
-                        className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
-                      />
-                    </div>
+                <div className="mt-8 pt-8 border-t border-[var(--color-neutral-200)]">
+                  <p className="text-sm font-medium text-[var(--color-neutral-700)] mb-3">Prefer to order by phone or email?</p>
+                  <div className="flex flex-wrap gap-4 text-sm">
+                    <a href="tel:+12023621500" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
+                      (202) 362-1500
+                    </a>
+                    <a href="mailto:order@federaltitle.com" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
+                      order@federaltitle.com
+                    </a>
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1.5">
-                      Property Address
-                    </label>
-                    <input
-                      type="text"
-                      name="propertyAddress"
-                      placeholder="123 Main Street, Washington, DC 20001"
-                      className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] placeholder:text-[var(--color-neutral-400)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-[var(--color-neutral-700)] mb-1.5">
-                      Additional Notes
-                    </label>
-                    <textarea
-                      name="notes"
-                      rows={3}
-                      className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all resize-none"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="w-full py-4 px-6 rounded-lg bg-[var(--color-accent-600)] text-white font-semibold text-base hover:bg-[var(--color-accent-700)] transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    {submitting ? 'Submitting…' : 'Submit Order'}
-                  </button>
-                  <p className="text-xs text-center text-[var(--color-neutral-500)]">
-                    By submitting, you agree to Federal Title contacting you about your order.
-                    Your REAL Credit will be applied at closing.
-                  </p>
-                </form>
+                </div>
               </div>
             </div>
 
@@ -254,13 +87,7 @@ export default function OrderPage() {
                   Included with your order
                 </h3>
                 <div className="space-y-2.5">
-                  {[
-                    'Up to $750 REAL Credit on settlement fee',
-                    '2 hours of free REALegal™ consultation',
-                    'Closing process tracker',
-                    'Complete cash-to-close picture',
-                    'Attorney-led closing',
-                  ].map((item) => (
+                  {included.map((item) => (
                     <div key={item} className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-[var(--color-accent-600)] shrink-0 mt-0.5" />
                       <span className="text-sm text-[var(--color-accent-800)]">{item}</span>
