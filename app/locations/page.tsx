@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { MapPin, Phone } from 'lucide-react';
 import { CTA } from '@/components/sections/CTA';
+import { LocationsMap } from '@/components/LocationsMap';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -99,6 +100,11 @@ export default function LocationsPage() {
             Six offices across DC, Maryland & Virginia — close to where you live, work, and buy.
           </p>
         </div>
+      </section>
+
+      {/* Interactive map */}
+      <section className="h-[480px] w-full">
+        <LocationsMap />
       </section>
 
       {/* Main offices */}
