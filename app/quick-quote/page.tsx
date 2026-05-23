@@ -48,9 +48,19 @@ export default function QuickQuotePage() {
 
   const onSubmit = async (data: QuoteFormData) => {
     setIsSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    setSuccess(true);
-    setIsSubmitting(false);
+    try {
+      const res = await fetch('/api/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Failed');
+      setSuccess(true);
+    } catch {
+      alert('Something went wrong. Please call us at (202) 362-1500.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

@@ -20,10 +20,36 @@ const jurisdictions = [
 
 export default function OrderPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    const form = e.currentTarget;
+    const data = {
+      firstName: (form.querySelector('[name="firstName"]') as HTMLInputElement)?.value,
+      lastName: (form.querySelector('[name="lastName"]') as HTMLInputElement)?.value,
+      email: (form.querySelector('[name="email"]') as HTMLInputElement)?.value,
+      phone: (form.querySelector('[name="phone"]') as HTMLInputElement)?.value,
+      transactionType: (form.querySelector('[name="transactionType"]') as HTMLSelectElement)?.value,
+      jurisdiction: (form.querySelector('[name="jurisdiction"]') as HTMLSelectElement)?.value,
+      closingDate: (form.querySelector('[name="closingDate"]') as HTMLInputElement)?.value,
+      propertyAddress: (form.querySelector('[name="propertyAddress"]') as HTMLInputElement)?.value,
+      notes: (form.querySelector('[name="notes"]') as HTMLTextAreaElement)?.value,
+    };
+    try {
+      const res = await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Failed');
+      setSubmitted(true);
+    } catch {
+      alert('Something went wrong. Please call us at (202) 362-1500.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -97,6 +123,7 @@ export default function OrderPage() {
                       </label>
                       <input
                         type="text"
+                        name="firstName"
                         required
                         className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
                       />
@@ -107,6 +134,7 @@ export default function OrderPage() {
                       </label>
                       <input
                         type="text"
+                        name="lastName"
                         required
                         className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
                       />
@@ -120,6 +148,7 @@ export default function OrderPage() {
                       </label>
                       <input
                         type="email"
+                        name="email"
                         required
                         className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
                       />
@@ -130,6 +159,7 @@ export default function OrderPage() {
                       </label>
                       <input
                         type="tel"
+                        name="phone"
                         className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
                       />
                     </div>
@@ -140,6 +170,7 @@ export default function OrderPage() {
                       Transaction Type *
                     </label>
                     <select
+                      name="transactionType"
                       required
                       className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all bg-white"
                     >
@@ -156,6 +187,7 @@ export default function OrderPage() {
                         Jurisdiction *
                       </label>
                       <select
+                        name="jurisdiction"
                         required
                         className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all bg-white"
                       >
@@ -171,6 +203,7 @@ export default function OrderPage() {
                       </label>
                       <input
                         type="date"
+                        name="closingDate"
                         className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
                       />
                     </div>
@@ -182,6 +215,7 @@ export default function OrderPage() {
                     </label>
                     <input
                       type="text"
+                      name="propertyAddress"
                       placeholder="123 Main Street, Washington, DC 20001"
                       className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] placeholder:text-[var(--color-neutral-400)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all"
                     />
@@ -192,6 +226,7 @@ export default function OrderPage() {
                       Additional Notes
                     </label>
                     <textarea
+                      name="notes"
                       rows={3}
                       className="w-full px-4 py-3 rounded-lg border border-[var(--color-neutral-300)] text-[var(--color-neutral-900)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-500)] focus:border-transparent transition-all resize-none"
                     />
@@ -199,9 +234,10 @@ export default function OrderPage() {
 
                   <button
                     type="submit"
-                    className="w-full py-4 px-6 rounded-lg bg-[var(--color-accent-600)] text-white font-semibold text-base hover:bg-[var(--color-accent-700)] transition-colors shadow-sm"
+                    disabled={submitting}
+                    className="w-full py-4 px-6 rounded-lg bg-[var(--color-accent-600)] text-white font-semibold text-base hover:bg-[var(--color-accent-700)] transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Submit Order
+                    {submitting ? 'Submitting…' : 'Submit Order'}
                   </button>
                   <p className="text-xs text-center text-[var(--color-neutral-500)]">
                     By submitting, you agree to Federal Title contacting you about your order.

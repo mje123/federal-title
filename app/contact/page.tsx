@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 import type { Metadata } from 'next';
+import ContactForm from '@/components/ContactForm';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -253,6 +254,25 @@ export default function ContactPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-white border-t border-[var(--color-neutral-200)]">
+        <div className="container mx-auto px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto">
+            <h2
+              className="text-3xl font-bold text-[var(--color-primary-900)] mb-2 text-center font-display"
+              style={{ fontFamily: 'var(--font-playfair), serif' }}
+            >
+              Send Us a Message
+            </h2>
+            <p className="text-center text-[var(--color-neutral-500)] text-sm mb-8">
+              We respond within 1 business hour during normal business hours.
+            </p>
+            <div className="bg-[var(--color-neutral-50)] rounded-2xl border border-[var(--color-neutral-200)] p-8">
+              <ContactForm />
             </div>
           </div>
         </div>
