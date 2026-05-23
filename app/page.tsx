@@ -438,6 +438,112 @@ export default async function HomePage() {
         secondaryAction={{ text: 'Order Services', href: '/order' }}
         background="gradient"
       />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'LegalService',
+            name: 'Federal Title & Escrow Company',
+            url: 'https://www.federaltitle.com',
+            logo: 'https://www.federaltitle.com/images/brand/logo-horizontal.png',
+            description:
+              'Independent, attorney-led title company serving Washington DC, Maryland and Virginia since 1996. Title insurance, real estate closings, and settlement services.',
+            foundingDate: '1996',
+            telephone: '+1-202-362-1500',
+            email: 'info@federaltitle.com',
+            sameAs: [
+              'https://www.google.com/maps/place/?q=place_id:ChIJZYOxKpfJt4kR0V17kVYs4SQ',
+            ],
+            areaServed: [
+              { '@type': 'City', name: 'Washington, DC' },
+              { '@type': 'State', name: 'Maryland' },
+              { '@type': 'State', name: 'Virginia' },
+            ],
+            location: [
+              {
+                '@type': 'Place',
+                name: 'Federal Title – Friendship Heights / Chevy Chase',
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: '5481 Wisconsin Avenue, Suite D',
+                  addressLocality: 'Chevy Chase',
+                  addressRegion: 'MD',
+                  postalCode: '20815',
+                  addressCountry: 'US',
+                },
+                telephone: '+1-202-362-1500',
+              },
+              {
+                '@type': 'Place',
+                name: 'Federal Title – U Street / Logan Circle',
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: '1803 14th Street NW, Third Floor',
+                  addressLocality: 'Washington',
+                  addressRegion: 'DC',
+                  postalCode: '20009',
+                  addressCountry: 'US',
+                },
+                telephone: '+1-202-362-1500',
+              },
+              {
+                '@type': 'Place',
+                name: 'Federal Title – Rockville',
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: '1 Research Court, Suite 450',
+                  addressLocality: 'Rockville',
+                  addressRegion: 'MD',
+                  postalCode: '20850',
+                  addressCountry: 'US',
+                },
+                telephone: '+1-202-362-1500',
+              },
+              {
+                '@type': 'Place',
+                name: 'Federal Title – Clarendon / Arlington',
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: '3101 Wilson Blvd, Suite 500',
+                  addressLocality: 'Arlington',
+                  addressRegion: 'VA',
+                  postalCode: '22201',
+                  addressCountry: 'US',
+                },
+                telephone: '+1-202-362-1500',
+              },
+              {
+                '@type': 'Place',
+                name: 'Federal Title – Potomac',
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: '10000 Falls Road, Suite 101',
+                  addressLocality: 'Potomac',
+                  addressRegion: 'MD',
+                  postalCode: '20854',
+                  addressCountry: 'US',
+                },
+                telephone: '+1-202-362-1500',
+              },
+              {
+                '@type': 'Place',
+                name: 'Federal Title – Fairfax',
+                address: {
+                  '@type': 'PostalAddress',
+                  streetAddress: '3975 Fair Ridge Drive, Suite T25S-A',
+                  addressLocality: 'Fairfax',
+                  addressRegion: 'VA',
+                  postalCode: '22033',
+                  addressCountry: 'US',
+                },
+                telephone: '+1-202-362-1500',
+              },
+            ],
+          }),
+        }}
+      />
     </>
   );
 }
