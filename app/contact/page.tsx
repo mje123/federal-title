@@ -112,24 +112,22 @@ export default function ContactPage() {
                     <Phone className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="font-semibold text-[var(--color-neutral-900)]">Settlement Attorney Services</p>
+                    <p className="font-semibold text-[var(--color-neutral-900)]">Settlement Attorneys Services</p>
                     <a href="tel:+12029189358" className="text-[var(--color-primary-600)] text-lg font-medium hover:text-[var(--color-primary-800)] transition-colors block">(202) 918-9358</a>
                     <a href="mailto:attorneys@federaltitle.com" className="text-[var(--color-neutral-500)] text-sm hover:text-[var(--color-primary-600)] transition-colors">attorneys@federaltitle.com</a>
                   </div>
                 </div>
 
-                <a
-                  href="tel:+12029189359"
-                  className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--color-neutral-200)] hover:border-[var(--color-primary-300)] transition-colors group"
-                >
-                  <div className="h-12 w-12 rounded-xl bg-[var(--color-primary-100)] text-[var(--color-primary-700)] flex items-center justify-center group-hover:bg-[var(--color-primary-600)] group-hover:text-white transition-colors">
+                <div className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--color-neutral-200)]">
+                  <div className="h-12 w-12 rounded-xl bg-[var(--color-primary-100)] text-[var(--color-primary-700)] flex items-center justify-center shrink-0">
                     <Phone className="h-5 w-5" />
                   </div>
                   <div>
                     <p className="font-semibold text-[var(--color-neutral-900)]">Post-Closing Support</p>
-                    <p className="text-[var(--color-primary-600)] text-lg font-medium">(202) 918-9359</p>
+                    <a href="tel:+12029189359" className="text-[var(--color-primary-600)] text-lg font-medium hover:text-[var(--color-primary-800)] transition-colors block">(202) 918-9359</a>
+                    <a href="mailto:postclosing@federaltitle.com" className="text-[var(--color-neutral-500)] text-sm hover:text-[var(--color-primary-600)] transition-colors">postclosing@federaltitle.com</a>
                   </div>
-                </a>
+                </div>
 
                 <a
                   href="tel:+12022741501"
