@@ -87,7 +87,7 @@ export function BlogEditor({ initial }: { initial?: Partial<Post> }) {
   const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
 
   return (
-    <div className="min-h-screen bg-[#f8f9fb] -m-8 lg:-m-10">
+    <div className="min-h-screen bg-white -m-8 lg:-m-10">
 
       {/* Sticky toolbar */}
       <div className="sticky top-0 z-10 bg-white/90 backdrop-blur border-b border-neutral-200 px-8 py-3 flex items-center justify-between">
@@ -162,47 +162,47 @@ export function BlogEditor({ initial }: { initial?: Partial<Post> }) {
           }}
           placeholder="Post title"
           rows={1}
-          className="w-full text-[2.75rem] font-bold leading-tight text-neutral-900 bg-transparent border-none outline-none resize-none placeholder:text-neutral-200 mb-3 overflow-hidden"
+          className="w-full text-[2.75rem] font-bold leading-tight text-neutral-900 bg-transparent border-none outline-none resize-none placeholder:text-neutral-400 mb-3 overflow-hidden"
           style={{ fontFamily: 'var(--font-playfair), serif' }}
         />
 
         {/* Slug row */}
-        <div className="flex items-center gap-2 pb-8 mb-8 border-b border-neutral-200">
-          <span className="text-xs text-neutral-400 shrink-0">federaltitle.com/blog/</span>
+        <div className="flex items-center gap-2 pb-8 mb-8 border-b border-neutral-300">
+          <span className="text-xs text-neutral-500 shrink-0 font-medium">federaltitle.com/blog/</span>
           <input
             type="text"
             value={slug}
             onChange={(e) => { setSlug(e.target.value); setSlugManual(true); }}
             placeholder="post-url-slug"
-            className="text-xs px-2.5 py-1.5 rounded-md border border-neutral-200 text-neutral-600 font-mono bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-400)] focus:border-transparent max-w-xs"
+            className="text-xs px-2.5 py-1.5 rounded-md border border-neutral-300 text-neutral-700 font-mono bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-400)] focus:border-transparent max-w-xs placeholder:text-neutral-400"
           />
         </div>
 
         {/* Excerpt */}
         <div className="mb-10">
-          <p className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 mb-2">
-            Excerpt <span className="font-normal normal-case text-neutral-300">— shown in blog listings</span>
+          <p className="text-[11px] font-bold uppercase tracking-widest text-neutral-600 mb-2">
+            Excerpt <span className="font-normal normal-case text-neutral-400">— shown in blog listings</span>
           </p>
           <textarea
             value={excerpt}
             onChange={(e) => setExcerpt(e.target.value)}
             rows={2}
             placeholder="A short description of this post…"
-            className="w-full text-sm text-neutral-600 bg-neutral-50 border border-neutral-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--color-primary-300)] focus:border-transparent resize-none placeholder:text-neutral-300 leading-relaxed"
+            className="w-full text-sm text-neutral-800 bg-white border border-neutral-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--color-primary-400)] focus:border-transparent resize-none placeholder:text-neutral-400 leading-relaxed shadow-sm"
           />
         </div>
 
         {/* Content */}
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 mb-2">Content</p>
+          <p className="text-[11px] font-bold uppercase tracking-widest text-neutral-600 mb-2">Content</p>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={30}
             placeholder="Write your post here…"
-            className="w-full text-[15px] text-neutral-800 bg-white border border-neutral-200 rounded-xl px-5 py-4 outline-none focus:ring-2 focus:ring-[var(--color-primary-300)] focus:border-transparent resize-y placeholder:text-neutral-300 leading-8 shadow-sm"
+            className="w-full text-[15px] text-neutral-900 bg-white border border-neutral-300 rounded-xl px-5 py-4 outline-none focus:ring-2 focus:ring-[var(--color-primary-400)] focus:border-transparent resize-y placeholder:text-neutral-400 leading-8 shadow-sm"
           />
-          <p className="text-xs text-neutral-300 mt-2 text-right">HTML or plain text</p>
+          <p className="text-xs text-neutral-400 mt-2 text-right">HTML or plain text</p>
         </div>
       </div>
     </div>
