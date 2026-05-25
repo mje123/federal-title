@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { LayoutDashboard, FileText, LogOut } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
@@ -23,9 +24,15 @@ export function PortalSidebar() {
 
   return (
     <aside className="w-56 shrink-0 bg-[var(--color-primary-900)] min-h-screen flex flex-col">
-      <div className="px-5 pt-7 pb-6">
-        <p className="text-white font-bold text-sm tracking-wide" style={{ fontFamily: 'var(--font-playfair), serif' }}>Federal Title</p>
-        <p className="text-white/35 text-xs mt-0.5 tracking-wider uppercase font-medium">Staff Portal</p>
+      <div className="px-5 pt-6 pb-5">
+        <Image
+          src="/images/brand/federaltitleescrow_white-56939da1.png"
+          alt="Federal Title & Escrow Company"
+          width={160}
+          height={44}
+          className="h-9 w-auto"
+        />
+        <p className="text-white/35 text-[10px] mt-2 tracking-widest uppercase font-semibold">Staff Portal</p>
       </div>
 
       <div className="mx-3 mb-4 h-px bg-white/10" />
