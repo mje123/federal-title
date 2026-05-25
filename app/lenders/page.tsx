@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CheckCircle2, Clock, Shield, DollarSign } from 'lucide-react';
+import { CheckCircle2, Clock, Shield, DollarSign, ExternalLink } from 'lucide-react';
 import { CTA } from '@/components/sections/CTA';
 import type { Metadata } from 'next';
 
@@ -77,29 +77,41 @@ export default function LendersPage() {
               </h3>
               <div className="grid md:grid-cols-2 gap-3 mb-6">
                 {[
-                  "Seller's Net Proceeds calculator",
-                  "Property Tax Comparison tool",
-                  "Buyer's Quick Quote function",
-                  "Close It!™ mobile app for Closing Disclosures",
-                  "REALSafe™ Closing Solutions for wire fraud prevention",
-                  "REAL Benefits™ for borrower savings",
+                  { label: 'Guaranteed Quote for accurate transfer/recordation taxes', href: 'https://federal-title-frontend.onrender.com/public/guaranteed-quote', external: true },
+                  { label: "Buyer's Cash To Close Calculator", href: 'https://closeit.federaltitle.com', external: true },
+                  { label: "Seller's Net Proceeds Calculator", href: 'https://closeit.federaltitle.com', external: true },
+                  { label: 'Close It!™ mobile app for Closing Disclosures', href: 'https://closeit.federaltitle.com', external: true },
+                  { label: 'REAL Benefits™ for borrower savings', href: '/real-benefits', external: false },
+                  { label: 'REALSafe™ Closing Solutions for fraud prevention', href: '/realsafe', external: false },
+                  { label: 'Best Practices Summary', href: '/lenders/best-practices', external: false },
                 ].map((tool) => (
-                  <div key={tool} className="flex items-center gap-2">
+                  <div key={tool.label} className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 text-[var(--color-accent-500)] shrink-0" />
-                    <span className="text-sm text-[var(--color-neutral-700)]">{tool}</span>
+                    {tool.external ? (
+                      <a
+                        href={tool.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-[var(--color-primary-700)] hover:text-[var(--color-primary-900)] hover:underline inline-flex items-center gap-1"
+                      >
+                        {tool.label}
+                        <ExternalLink className="h-3 w-3 shrink-0 opacity-60" />
+                      </a>
+                    ) : (
+                      <Link
+                        href={tool.href}
+                        className="text-sm text-[var(--color-primary-700)] hover:text-[var(--color-primary-900)] hover:underline"
+                      >
+                        {tool.label}
+                      </Link>
+                    )}
                   </div>
                 ))}
               </div>
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href="/lenders/best-practices"
-                  className="px-5 py-2.5 rounded-lg bg-[var(--color-primary-700)] text-white font-medium text-sm hover:bg-[var(--color-primary-900)] transition-colors"
-                >
-                  Best Practices Summary
-                </Link>
-                <Link
                   href="/contact"
-                  className="px-5 py-2.5 rounded-lg border-2 border-[var(--color-primary-300)] text-[var(--color-primary-700)] font-medium text-sm hover:bg-[var(--color-primary-50)] transition-colors"
+                  className="px-5 py-2.5 rounded-lg bg-[var(--color-primary-700)] text-white font-medium text-sm hover:bg-[var(--color-primary-900)] transition-colors text-center"
                 >
                   Contact Us
                 </Link>
