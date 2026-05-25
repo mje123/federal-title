@@ -30,7 +30,6 @@ const staticPages: MetadataRoute.Sitemap = [
   { url: `${BASE}/lenders`, changeFrequency: 'monthly', priority: 0.8 },
   { url: `${BASE}/lenders/best-practices`, changeFrequency: 'monthly', priority: 0.6 },
   { url: `${BASE}/lenders/licensing`, changeFrequency: 'monthly', priority: 0.6 },
-  { url: `${BASE}/lenders/tax-info`, changeFrequency: 'monthly', priority: 0.6 },
   { url: `${BASE}/locations`, changeFrequency: 'monthly', priority: 0.9 },
   { url: `${BASE}/locations/friendship-heights`, changeFrequency: 'monthly', priority: 0.7 },
   { url: `${BASE}/locations/14th-street`, changeFrequency: 'monthly', priority: 0.7 },
