@@ -40,7 +40,7 @@ export default function RockvillePage() {
 
             <div className="rounded-xl overflow-hidden border border-[var(--color-neutral-200)] h-[480px] lg:h-auto">
               <iframe
-                src="https://maps.google.com/maps?q=1+Research+Court+Suite+450+Rockville+MD+20850&output=embed&z=15"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-77.1568%2C39.0811%2C-77.1488%2C39.0871&layer=mapnik&marker=39.0841%2C-77.1528"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: '480px' }}

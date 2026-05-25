@@ -84,7 +84,7 @@ export default function FriendshipHeightsPage() {
 
             <div className="rounded-xl overflow-hidden border border-[var(--color-neutral-200)] h-[480px] lg:h-auto">
               <iframe
-                src="https://maps.google.com/maps?q=5481+Wisconsin+Avenue+Suite+D+Chevy+Chase+MD+20815&output=embed&z=15"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-77.0923%2C38.9577%2C-77.0843%2C38.9637&layer=mapnik&marker=38.9607%2C-77.0883"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: '480px' }}

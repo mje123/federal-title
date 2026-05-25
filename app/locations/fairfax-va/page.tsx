@@ -40,7 +40,7 @@ export default function FairfaxPage() {
 
             <div className="rounded-xl overflow-hidden border border-[var(--color-neutral-200)] h-[480px] lg:h-auto">
               <iframe
-                src="https://maps.google.com/maps?q=3975+Fair+Ridge+Drive+Fairfax+VA+22033&output=embed&z=15"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-77.3903%2C38.8667%2C-77.3823%2C38.8727&layer=mapnik&marker=38.8697%2C-77.3863"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: '480px' }}

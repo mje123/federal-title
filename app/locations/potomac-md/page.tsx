@@ -40,7 +40,7 @@ export default function PotomacPage() {
 
             <div className="rounded-xl overflow-hidden border border-[var(--color-neutral-200)] h-[480px] lg:h-auto">
               <iframe
-                src="https://maps.google.com/maps?q=10000+Falls+Road+Suite+101+Potomac+MD+20854&output=embed&z=15"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-77.2187%2C39.0185%2C-77.2107%2C39.0245&layer=mapnik&marker=39.0215%2C-77.2147"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: '480px' }}
