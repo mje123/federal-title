@@ -210,19 +210,30 @@ export default async function HomePage() {
               <p className="text-[var(--color-neutral-700)] text-lg leading-relaxed mb-6">
                 Federal Title is an attorney driven title company. As the closing industry changes, we believe that one thing should remain the same: serving your best interests. Federal Title has been independently owned and operated since 1996 with the mission that we serve the consumer by offering the best service at an unbeatable price. Nearly three decades later, that mission holds true.
               </p>
-              <p className="text-[var(--color-neutral-700)] text-lg leading-relaxed mb-8">
-                If you want to speak with us about an upcoming closing, or have any questions about a real estate transaction, give us a call.
-              </p>
-              <div className="space-y-2 mb-8">
-                <a href="tel:2023621500" className="flex items-center gap-2 text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
-                  (202) 362-1500
-                </a>
-                <a href="tel:2029189358" className="flex items-center gap-2 text-[var(--color-neutral-600)] text-sm hover:text-[var(--color-primary-700)] transition-colors">
-                  Attorney Consultation: (202) 918-9358
-                </a>
-                <a href="mailto:info@federaltitle.com" className="flex items-center gap-2 text-[var(--color-neutral-600)] text-sm hover:text-[var(--color-primary-700)] transition-colors">
-                  info@federaltitle.com
-                </a>
+              <div className="mb-8 space-y-3">
+                <p className="text-xl font-semibold text-[var(--color-primary-900)]">
+                  Get in touch.
+                </p>
+                <p className="text-[var(--color-neutral-700)] leading-relaxed">
+                  Give us a call at{' '}
+                  <a href="tel:+12023621500" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
+                    (202) 362-1500
+                  </a>{' '}
+                  or email{' '}
+                  <a href="mailto:info@federaltitle.com" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
+                    info@federaltitle.com
+                  </a>.
+                </p>
+                <p className="text-[var(--color-neutral-700)] leading-relaxed">
+                  Speak with a real estate attorney at{' '}
+                  <a href="tel:+12029189358" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
+                    (202) 918-9358
+                  </a>{' '}
+                  or email{' '}
+                  <a href="mailto:attorneys@federaltitle.com" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
+                    attorneys@federaltitle.com
+                  </a>.
+                </p>
               </div>
               <div className="flex flex-wrap gap-3">
                 <Link

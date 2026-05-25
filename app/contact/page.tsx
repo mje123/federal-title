@@ -160,15 +160,15 @@ export default function ContactPage() {
                 </a>
 
                 <a
-                  href="mailto:order@federaltitle.com"
+                  href="mailto:services@federaltitle.com"
                   className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--color-neutral-200)] hover:border-[var(--color-primary-300)] transition-colors group"
                 >
                   <div className="h-12 w-12 rounded-xl bg-[var(--color-primary-100)] text-[var(--color-primary-700)] flex items-center justify-center group-hover:bg-[var(--color-primary-600)] group-hover:text-white transition-colors">
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="font-semibold text-[var(--color-neutral-900)]">New Contract Submissions</p>
-                    <p className="text-[var(--color-primary-600)] font-medium">order@federaltitle.com</p>
+                    <p className="font-semibold text-[var(--color-neutral-900)]">New Contract and Title Request Submissions</p>
+                    <p className="text-[var(--color-primary-600)] font-medium">services@federaltitle.com</p>
                   </div>
                 </a>
               </div>
