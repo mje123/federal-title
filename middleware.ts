@@ -41,8 +41,8 @@ export async function middleware(request: NextRequest) {
   }
 
   // Email allowlist — set ADMIN_ALLOWED_EMAILS as comma-separated list in env
-  const allowedEmails = process.env.ADMIN_ALLOWED_EMAILS?.split(',').map((e) => e.trim()) ?? [];
-  if (allowedEmails.length > 0 && !allowedEmails.includes(user.email ?? '')) {
+  const allowedEmails = process.env.ADMIN_ALLOWED_EMAILS?.split(',').map((e) => e.trim().toLowerCase()) ?? [];
+  if (allowedEmails.length > 0 && !allowedEmails.includes((user.email ?? '').toLowerCase())) {
     await supabase.auth.signOut();
     return NextResponse.redirect(new URL('/portal/login?error=unauthorized', request.url));
   }
