@@ -3,14 +3,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, FileText, Newspaper, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, Settings, LogOut } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
 
 const nav = [
   { label: 'Dashboard', href: '/portal', icon: LayoutDashboard, exact: true },
   { label: 'Blog Posts', href: '/portal/blog', icon: FileText },
-  { label: 'Industry News', href: '/portal/news', icon: Newspaper },
   { label: 'Site Settings', href: '/portal/settings', icon: Settings },
 ];
 
