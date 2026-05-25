@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import type { Metadata } from 'next';
+import EmailLink from '@/components/EmailLink';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -113,7 +114,7 @@ export default function ContactPage() {
                   <div>
                     <p className="font-semibold text-[var(--color-neutral-900)]">Settlement Attorneys Services</p>
                     <a href="tel:+12029189358" className="text-[var(--color-primary-600)] text-lg font-medium hover:text-[var(--color-primary-800)] transition-colors block">(202) 918-9358</a>
-                    <a href="mailto:attorneys@federaltitle.com" className="text-[var(--color-neutral-500)] text-sm hover:text-[var(--color-primary-600)] transition-colors">attorneys@federaltitle.com</a>
+                    <EmailLink email="attorneys@federaltitle.com" className="text-[var(--color-neutral-500)] text-sm hover:text-[var(--color-primary-600)] transition-colors" />
                   </div>
                 </div>
 
@@ -124,7 +125,7 @@ export default function ContactPage() {
                   <div>
                     <p className="font-semibold text-[var(--color-neutral-900)]">Post-Closing Support</p>
                     <a href="tel:+12029189359" className="text-[var(--color-primary-600)] text-lg font-medium hover:text-[var(--color-primary-800)] transition-colors block">(202) 918-9359</a>
-                    <a href="mailto:postclosing@federaltitle.com" className="text-[var(--color-neutral-500)] text-sm hover:text-[var(--color-primary-600)] transition-colors">postclosing@federaltitle.com</a>
+                    <EmailLink email="postclosing@federaltitle.com" className="text-[var(--color-neutral-500)] text-sm hover:text-[var(--color-primary-600)] transition-colors" />
                   </div>
                 </div>
 
@@ -141,31 +142,25 @@ export default function ContactPage() {
                   </div>
                 </a>
 
-                <a
-                  href="mailto:info@federaltitle.com"
-                  className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--color-neutral-200)] hover:border-[var(--color-primary-300)] transition-colors group"
-                >
-                  <div className="h-12 w-12 rounded-xl bg-[var(--color-primary-100)] text-[var(--color-primary-700)] flex items-center justify-center group-hover:bg-[var(--color-primary-600)] group-hover:text-white transition-colors">
+                <div className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--color-neutral-200)]">
+                  <div className="h-12 w-12 rounded-xl bg-[var(--color-primary-100)] text-[var(--color-primary-700)] flex items-center justify-center shrink-0">
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
                     <p className="font-semibold text-[var(--color-neutral-900)]">Email</p>
-                    <p className="text-[var(--color-primary-600)] font-medium">info@federaltitle.com</p>
+                    <EmailLink email="info@federaltitle.com" className="text-[var(--color-primary-600)] font-medium hover:text-[var(--color-primary-800)] transition-colors" />
                   </div>
-                </a>
+                </div>
 
-                <a
-                  href="mailto:services@federaltitle.com"
-                  className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--color-neutral-200)] hover:border-[var(--color-primary-300)] transition-colors group"
-                >
-                  <div className="h-12 w-12 rounded-xl bg-[var(--color-primary-100)] text-[var(--color-primary-700)] flex items-center justify-center group-hover:bg-[var(--color-primary-600)] group-hover:text-white transition-colors">
+                <div className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--color-neutral-200)]">
+                  <div className="h-12 w-12 rounded-xl bg-[var(--color-primary-100)] text-[var(--color-primary-700)] flex items-center justify-center shrink-0">
                     <Mail className="h-5 w-5" />
                   </div>
                   <div>
                     <p className="font-semibold text-[var(--color-neutral-900)]">New Contract and Title Request Submissions</p>
-                    <p className="text-[var(--color-primary-600)] font-medium">services@federaltitle.com</p>
+                    <EmailLink email="services@federaltitle.com" className="text-[var(--color-primary-600)] font-medium hover:text-[var(--color-primary-800)] transition-colors" />
                   </div>
-                </a>
+                </div>
               </div>
 
               <div className="bg-[var(--color-accent-50)] border border-[var(--color-accent-200)] rounded-xl p-6">
