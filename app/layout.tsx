@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { LayoutShell } from '@/components/layout/LayoutShell';
+import { AnnouncementBanner } from '@/components/layout/AnnouncementBanner';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -53,7 +54,7 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <LayoutShell>{children}</LayoutShell>
+        <LayoutShell banner={<AnnouncementBanner />}>{children}</LayoutShell>
       </body>
     </html>
   );

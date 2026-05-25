@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 
-export function LayoutShell({ children }: { children: React.ReactNode }) {
+export function LayoutShell({ children, banner }: { children: React.ReactNode; banner: React.ReactNode }) {
   const pathname = usePathname();
   const isPortal = pathname.startsWith('/portal');
 
@@ -12,6 +12,7 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
+      {banner}
       <Navigation />
       <main className="flex-1">{children}</main>
       <Footer />

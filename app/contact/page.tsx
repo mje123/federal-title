@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import type { Metadata } from 'next';
 import EmailLink from '@/components/EmailLink';
+import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -61,7 +62,12 @@ const offices = [
   },
 ];
 
-export default function ContactPage() {
+const DAYS = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'] as const;
+
+export default async function ContactPage() {
+  const supabase = await createClient();
+  const { data } = await supabase.from('site_settings').select('value').eq('key', 'office_hours').single();
+  const hours = data?.value as Record<string, string> | null;
   return (
     <>
       <section className="bg-[var(--color-primary-900)] text-white py-20">
@@ -248,6 +254,32 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      {hours && (
+        <section className="py-16 bg-[var(--color-neutral-50)] border-t border-[var(--color-neutral-200)]">
+          <div className="container mx-auto px-6 lg:px-8 max-w-lg">
+            <div className="flex items-center gap-2.5 mb-6">
+              <Clock className="h-5 w-5 text-[var(--color-primary-600)]" />
+              <h2 className="text-xl font-bold text-[var(--color-primary-900)]" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+                Office Hours
+              </h2>
+            </div>
+            <div className="bg-white rounded-xl border border-[var(--color-neutral-200)] divide-y divide-[var(--color-neutral-100)]">
+              {DAYS.map((day) => (
+                <div key={day} className="flex items-center justify-between px-5 py-3">
+                  <span className="text-sm font-medium text-[var(--color-neutral-700)] capitalize">{day}</span>
+                  <span className={`text-sm ${hours[day] === 'Closed' ? 'text-[var(--color-neutral-400)]' : 'text-[var(--color-neutral-800)]'}`}>
+                    {hours[day] ?? 'Closed'}
+                  </span>
+                </div>
+              ))}
+            </div>
+            {hours.notes && (
+              <p className="text-xs text-[var(--color-neutral-500)] mt-3">{hours.notes}</p>
+            )}
+          </div>
+        </section>
+      )}
 
     </>
   );
