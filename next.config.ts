@@ -1,5 +1,32 @@
 import type { NextConfig } from 'next';
 
+async function getWordPressBlogRedirects() {
+  try {
+    let allSlugs: string[] = [];
+    let page = 1;
+    while (true) {
+      const res = await fetch(
+        `https://www.federaltitle.com/wp-json/wp/v2/posts?per_page=100&page=${page}&_fields=slug`,
+        { signal: AbortSignal.timeout(10000) }
+      );
+      if (!res.ok) break;
+      const posts: { slug: string }[] = await res.json();
+      if (!posts.length) break;
+      allSlugs = allSlugs.concat(posts.map((p) => p.slug));
+      const total = parseInt(res.headers.get('X-WP-TotalPages') ?? '1', 10);
+      if (page >= total) break;
+      page++;
+    }
+    return allSlugs.map((slug) => ({
+      source: `/${slug}`,
+      destination: `/blog/${slug}`,
+      permanent: true,
+    }));
+  } catch {
+    return [];
+  }
+}
+
 const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -8,6 +35,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 31536000,
   },
   async redirects() {
+    const blogRedirects = await getWordPressBlogRedirects();
     return [
       // ── External tools ──────────────────────────────────────────────────
       { source: '/quick-quote', destination: 'https://federal-title-frontend.onrender.com/public/guaranteed-quote', permanent: false },
@@ -105,6 +133,8 @@ const nextConfig: NextConfig = {
       { source: '/title-insurance-vs-homeowners-insurance-why-do-you-need-both-to-protect-your-home', destination: '/blog', permanent: true },
       { source: '/a-revisit-of-marylands-first-time-homebuyer-transfer-tax-exemption', destination: '/blog', permanent: true },
       { source: '/using-a-power-of-attorney-with-a-trust-q-a-for-sellers-and-listing-agents', destination: '/blog', permanent: true },
+      // Dynamic WordPress blog post redirects (fetched at build time)
+      ...blogRedirects,
     ];
   },
 };
