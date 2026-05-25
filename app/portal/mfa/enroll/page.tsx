@@ -58,8 +58,7 @@ export default function MFAEnroll() {
       return;
     }
 
-    router.push('/portal');
-    router.refresh();
+    window.location.replace('/portal');
   }
 
   return (

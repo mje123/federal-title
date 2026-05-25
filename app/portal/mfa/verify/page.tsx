@@ -47,8 +47,7 @@ export default function MFAVerify() {
       return;
     }
 
-    router.push('/portal');
-    router.refresh();
+    window.location.replace('/portal');
   }
 
   return (
