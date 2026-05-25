@@ -26,6 +26,11 @@ export const metadata: Metadata = {
   description:
     'Attorney-led independent title company serving DC, Maryland & Virginia for 30+ years. Get your guaranteed quote online and save up to $750 with our REAL Credit.',
   metadataBase: new URL('https://www.federaltitle.com'),
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+  },
   openGraph: {
     type: 'website',
     siteName: 'Federal Title & Escrow Company',
