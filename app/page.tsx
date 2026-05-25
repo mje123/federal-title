@@ -258,7 +258,7 @@ export default async function HomePage() {
                 'Remote & digital closing solutions',
                 'Complete, upfront cash-to-close picture',
                 'Closing process tracker',
-                'Local knowledge accrued over 25 years of business',
+                'Local knowledge accrued over 30 years of business',
                 'Seamless, stress-free closings',
                 'Accessible in-house attorneys & seasoned support staff',
                 'Easy, proactive communication',
