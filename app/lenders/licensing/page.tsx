@@ -22,7 +22,7 @@ export default function LicensingPage() {
       <section className="py-16 lg:py-20 bg-white">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl space-y-12">
           <div className="bg-[var(--color-neutral-50)] rounded-xl p-6 border border-[var(--color-neutral-200)]">
-            <p className="text-sm text-[var(--color-neutral-600)]"><strong>Trade Name:</strong> Federal Title & Escrow Company operates as Close It! Title Services, Inc.</p>
+            <p className="text-sm text-[var(--color-neutral-600)]"><strong>Trade Name:</strong> Federal Title & Escrow Company, a trade name of Close It! Title Services, Inc.</p>
             <p className="text-sm text-[var(--color-neutral-600)] mt-1"><strong>Address:</strong> 5481 Wisconsin Avenue, Suite D, Chevy Chase, MD 20815</p>
           </div>
 
