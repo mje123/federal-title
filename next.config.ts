@@ -38,7 +38,6 @@ const nextConfig: NextConfig = {
     const blogRedirects = await getWordPressBlogRedirects();
     return [
       // ── External tools ──────────────────────────────────────────────────
-      { source: '/quick-quote', destination: 'https://federal-title-frontend.onrender.com/public/guaranteed-quote', permanent: false },
       { source: '/order', destination: 'https://tools.federaltitle.com/titleagents/orderservicen.aspx', permanent: false },
       { source: '/order-settlement-services', destination: 'https://tools.federaltitle.com/titleagents/orderservicen.aspx', permanent: true },
       { source: '/order-title-services', destination: 'https://tools.federaltitle.com/titleagents/orderservicen.aspx', permanent: true },
@@ -92,7 +91,6 @@ const nextConfig: NextConfig = {
 
       // ── Earnest money ────────────────────────────────────────────────────
       { source: '/emd-delivery-options', destination: '/homebuyers/earnest-money', permanent: true },
-      { source: '/deposit-earnest-money', destination: '/homebuyers/earnest-money', permanent: true },
 
       // ── Sellers / homeowners ─────────────────────────────────────────────
       { source: '/calculate-proceeds', destination: '/sellers/calculate-proceeds', permanent: true },

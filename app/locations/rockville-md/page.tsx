@@ -55,6 +55,49 @@ export default function RockvillePage() {
       </section>
 
       <CTA title="Ready to close in Rockville?" description="Get a guaranteed quote online or call (202) 362-1500." primaryAction={{ text: 'Get a Free Quote', href: '/quick-quote' }} secondaryAction={{ text: 'All Locations', href: '/locations' }} background="gradient" />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.federaltitle.com' },
+              { '@type': 'ListItem', position: 2, name: 'Locations', item: 'https://www.federaltitle.com/locations' },
+              { '@type': 'ListItem', position: 3, name: 'Rockville, MD', item: 'https://www.federaltitle.com/locations/rockville-md' },
+            ],
+          }),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'LegalService',
+            name: 'Federal Title & Escrow Company – Rockville',
+            url: 'https://www.federaltitle.com/locations/rockville-md',
+            telephone: '+1-202-362-1500',
+            email: 'info@federaltitle.com',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: '1 Research Court, Suite 450',
+              addressLocality: 'Rockville',
+              addressRegion: 'MD',
+              postalCode: '20850',
+              addressCountry: 'US',
+            },
+            geo: { '@type': 'GeoCoordinates', latitude: 39.0841, longitude: -77.1528 },
+            parentOrganization: { '@type': 'LegalService', name: 'Federal Title & Escrow Company', url: 'https://www.federaltitle.com' },
+            areaServed: [
+              { '@type': 'City', name: 'Rockville, MD' },
+              { '@type': 'AdministrativeArea', name: 'Montgomery County, MD' },
+            ],
+          }),
+        }}
+      />
     </>
   );
 }

@@ -47,7 +47,7 @@ export default function TeamPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {attorneys.map((member) => (
-              <div key={member.slug} className="group">
+              <Link key={member.slug} href={`/about-us/team/${member.slug}`} className="group block">
                 <div className="relative aspect-square rounded-xl overflow-hidden mb-4 bg-[var(--color-neutral-100)]">
                   <Image
                     src={member.image}
@@ -56,7 +56,7 @@ export default function TeamPage() {
                     className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <h3 className="font-semibold text-[var(--color-neutral-900)] text-lg leading-tight">
+                <h3 className="font-semibold text-[var(--color-neutral-900)] text-lg leading-tight group-hover:text-[var(--color-accent-600)] transition-colors">
                   {member.name}
                 </h3>
                 <p className="text-[var(--color-primary-600)] text-sm font-medium mt-1">
@@ -67,7 +67,10 @@ export default function TeamPage() {
                     {member.bio}
                   </p>
                 )}
-              </div>
+                <span className="inline-block mt-3 text-xs font-semibold text-[var(--color-accent-600)] group-hover:underline">
+                  Full bio →
+                </span>
+              </Link>
             ))}
           </div>
         </div>

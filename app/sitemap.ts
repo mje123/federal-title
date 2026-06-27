@@ -58,24 +58,56 @@ const staticPages: MetadataRoute.Sitemap = [
   { url: `${BASE}/what-does-a-title-company-do`, changeFrequency: 'monthly', priority: 0.7 },
 ];
 
-async function getBlogSlugs(): Promise<string[]> {
+interface BlogEntry { slug: string; lastmod: string; }
+
+async function getSupabaseBlogEntries(): Promise<BlogEntry[]> {
   try {
     const res = await fetch(
-      'https://www.federaltitle.com/wp-json/wp/v2/posts?per_page=100&fields=slug,date&_fields=slug,date',
+      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/blog_posts?select=slug,published_at,updated_at&status=eq.published&order=published_at.desc&limit=500`,
+      {
+        headers: {
+          apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''}`,
+        },
+        next: { revalidate: 3600 },
+      }
+    );
+    if (!res.ok) return [];
+    const rows: { slug: string; published_at: string; updated_at?: string }[] = await res.json();
+    return rows.map((r) => ({ slug: r.slug, lastmod: r.updated_at ?? r.published_at }));
+  } catch {
+    return [];
+  }
+}
+
+async function getWPBlogEntries(): Promise<BlogEntry[]> {
+  try {
+    const res = await fetch(
+      'https://www.federaltitle.com/wp-json/wp/v2/posts?per_page=100&_fields=slug,modified',
       { next: { revalidate: 86400 } }
     );
     if (!res.ok) return [];
-    const posts: { slug: string }[] = await res.json();
-    return posts.map((p) => p.slug);
+    const posts: { slug: string; modified: string }[] = await res.json();
+    return posts.map((p) => ({ slug: p.slug, lastmod: p.modified }));
   } catch {
     return [];
   }
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const blogSlugs = await getBlogSlugs();
-  const blogEntries: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
-    url: `${BASE}/blog/${slug}`,
+  const [supabaseEntries, wpEntries] = await Promise.all([
+    getSupabaseBlogEntries(),
+    getWPBlogEntries(),
+  ]);
+
+  // Merge: Supabase is authoritative, WP fills in any slugs not yet migrated
+  const seen = new Set(supabaseEntries.map((e) => e.slug));
+  const wpOnly = wpEntries.filter((e) => !seen.has(e.slug));
+  const allBlog = [...supabaseEntries, ...wpOnly];
+
+  const blogEntries: MetadataRoute.Sitemap = allBlog.map((e) => ({
+    url: `${BASE}/blog/${e.slug}`,
+    lastModified: e.lastmod,
     changeFrequency: 'yearly',
     priority: 0.6,
   }));

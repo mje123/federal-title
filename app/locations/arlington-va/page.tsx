@@ -55,6 +55,50 @@ export default function ArlingtonPage() {
       </section>
 
       <CTA title="Ready to close in Arlington?" description="Get a guaranteed quote online or call (202) 362-1500." primaryAction={{ text: 'Get a Free Quote', href: '/quick-quote' }} secondaryAction={{ text: 'All Locations', href: '/locations' }} background="gradient" />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.federaltitle.com' },
+              { '@type': 'ListItem', position: 2, name: 'Locations', item: 'https://www.federaltitle.com/locations' },
+              { '@type': 'ListItem', position: 3, name: 'Clarendon / Arlington', item: 'https://www.federaltitle.com/locations/arlington-va' },
+            ],
+          }),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'LegalService',
+            name: 'Federal Title & Escrow Company – Clarendon / Arlington',
+            url: 'https://www.federaltitle.com/locations/arlington-va',
+            telephone: '+1-202-362-1500',
+            email: 'info@federaltitle.com',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: '3101 Wilson Boulevard, Suite 500',
+              addressLocality: 'Arlington',
+              addressRegion: 'VA',
+              postalCode: '22201',
+              addressCountry: 'US',
+            },
+            geo: { '@type': 'GeoCoordinates', latitude: 38.8826, longitude: -77.0943 },
+            parentOrganization: { '@type': 'LegalService', name: 'Federal Title & Escrow Company', url: 'https://www.federaltitle.com' },
+            areaServed: [
+              { '@type': 'City', name: 'Arlington, VA' },
+              { '@type': 'Neighborhood', name: 'Clarendon' },
+              { '@type': 'AdministrativeArea', name: 'Northern Virginia' },
+            ],
+          }),
+        }}
+      />
     </>
   );
 }

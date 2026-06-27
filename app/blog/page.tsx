@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Search } from 'lucide-react';
+import { createClient } from '@/lib/supabase/server';
+import { BlogSubscribeForm } from './BlogSubscribeForm';
 
 export const metadata: Metadata = {
   title: 'Real Estate Blog | Federal Title & Escrow Company',
@@ -21,7 +23,17 @@ interface WPPost {
   };
 }
 
-async function getPosts(page = 1, search = ''): Promise<{ posts: WPPost[]; total: number; totalPages: number }> {
+interface UnifiedPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  image?: string;
+  source: 'supabase' | 'wordpress';
+}
+
+async function getWPPosts(page = 1, search = ''): Promise<{ posts: WPPost[]; total: number; totalPages: number }> {
   try {
     const params = new URLSearchParams({
       per_page: String(search ? 20 : PER_PAGE),
@@ -40,6 +52,30 @@ async function getPosts(page = 1, search = ''): Promise<{ posts: WPPost[]; total
   }
 }
 
+async function getSupabasePosts(search = ''): Promise<UnifiedPost[]> {
+  try {
+    const supabase = await createClient();
+    let query = supabase
+      .from('blog_posts')
+      .select('slug, title, excerpt, published_at, created_at, cover_image, author_name')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false });
+    if (search) query = query.ilike('title', `%${search}%`);
+    const { data } = await query;
+    return (data ?? []).map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      excerpt: p.excerpt ?? '',
+      date: p.published_at ?? p.created_at,
+      author: p.author_name ?? 'Federal Title',
+      image: p.cover_image ?? undefined,
+      source: 'supabase' as const,
+    }));
+  } catch {
+    return [];
+  }
+}
+
 export default async function BlogPage({
   searchParams,
 }: {
@@ -47,7 +83,26 @@ export default async function BlogPage({
 }) {
   const { page: pageParam, search = '' } = await searchParams;
   const currentPage = Math.max(1, parseInt(pageParam ?? '1', 10));
-  const { posts, total, totalPages } = await getPosts(currentPage, search);
+
+  const [supabasePosts, { posts: wpRaw, total: wpTotal, totalPages }] = await Promise.all([
+    getSupabasePosts(search),
+    getWPPosts(currentPage, search),
+  ]);
+
+  // Convert WP posts to unified format
+  const wpPosts: UnifiedPost[] = wpRaw.map((post) => ({
+    slug: post.slug,
+    title: post.title.rendered.replace(/&#(\d+);/g, (_, c) => String.fromCharCode(parseInt(c))),
+    excerpt: post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 160),
+    date: post.date,
+    author: post._embedded?.author?.[0]?.name ?? 'Federal Title',
+    image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url,
+    source: 'wordpress' as const,
+  }));
+
+  // Supabase posts go first (newest content), then WP posts
+  const posts = [...supabasePosts, ...wpPosts];
+  const total = supabasePosts.length + wpTotal;
 
   return (
     <>
@@ -90,104 +145,105 @@ export default async function BlogPage({
 
       <section className="py-16 lg:py-20 bg-[var(--color-neutral-50)]">
         <div className="container mx-auto px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row gap-12">
 
-          {/* Search result context */}
-          {search && (
-            <div className="flex items-center justify-between mb-8">
-              <p className="text-[var(--color-neutral-600)] text-sm">
-                {total > 0
-                  ? <><strong>{total}</strong> result{total !== 1 ? 's' : ''} for &ldquo;{search}&rdquo;</>
-                  : <>No results for &ldquo;{search}&rdquo;</>
-                }
-              </p>
-              <Link href="/blog" className="text-sm text-[var(--color-accent-600)] hover:underline">
-                Clear search
-              </Link>
-            </div>
-          )}
-
-          {posts.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-[var(--color-neutral-500)] mb-4">
-                {search ? `No articles found for "${search}".` : 'Unable to load posts. Please try again.'}
-              </p>
+            {/* Main posts column */}
+            <div className="flex-1 min-w-0">
               {search && (
-                <Link href="/blog" className="text-sm font-medium text-[var(--color-accent-600)] hover:underline">
-                  Browse all articles →
-                </Link>
-              )}
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {posts.map((post) => {
-                const title = post.title.rendered.replace(/&#(\d+);/g, (_, c) => String.fromCharCode(parseInt(c)));
-                const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 160);
-                const author = post._embedded?.author?.[0]?.name ?? 'Federal Title';
-                const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-                const date = new Date(post.date).toLocaleDateString('en-US', {
-                  year: 'numeric', month: 'short', day: 'numeric',
-                });
-
-                return (
-                  <Link
-                    key={post.slug}
-                    href={`/blog/${post.slug}`}
-                    className="group bg-white rounded-xl border border-[var(--color-neutral-200)] overflow-hidden hover:border-[var(--color-accent-400)] hover:shadow-md transition-all"
-                  >
-                    {image && (
-                      <div className="aspect-[16/9] overflow-hidden">
-                        <img
-                          src={image}
-                          alt={title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
-                    <div className="p-6">
-                      <div className="flex items-center gap-2 text-xs text-[var(--color-neutral-500)] mb-3">
-                        <time>{date}</time>
-                        <span>·</span>
-                        <span>{author}</span>
-                      </div>
-                      <h2 className="text-lg font-semibold text-[var(--color-primary-900)] mb-2 group-hover:text-[var(--color-accent-600)] transition-colors leading-snug line-clamp-2">
-                        {title}
-                      </h2>
-                      <p className="text-sm text-[var(--color-neutral-600)] leading-relaxed line-clamp-3">
-                        {excerpt}
-                      </p>
-                      <span className="inline-block mt-4 text-sm font-medium text-[var(--color-accent-600)] group-hover:underline">
-                        Read more →
-                      </span>
-                    </div>
+                <div className="flex items-center justify-between mb-8">
+                  <p className="text-[var(--color-neutral-600)] text-sm">
+                    {total > 0
+                      ? <><strong>{total}</strong> result{total !== 1 ? 's' : ''} for &ldquo;{search}&rdquo;</>
+                      : <>No results for &ldquo;{search}&rdquo;</>
+                    }
+                  </p>
+                  <Link href="/blog" className="text-sm text-[var(--color-accent-600)] hover:underline">
+                    Clear search
                   </Link>
-                );
-              })}
-            </div>
-          )}
+                </div>
+              )}
 
-          {!search && totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2">
-              {currentPage > 1 && (
-                <Link
-                  href={`/blog?page=${currentPage - 1}`}
-                  className="h-10 px-4 rounded-lg border border-[var(--color-neutral-300)] text-sm font-medium text-[var(--color-primary-700)] hover:bg-[var(--color-neutral-100)] transition-colors"
-                >
-                  ← Previous
-                </Link>
+              {posts.length === 0 ? (
+                <div className="text-center py-16">
+                  <p className="text-[var(--color-neutral-500)] mb-4">
+                    {search ? `No articles found for "${search}".` : 'Unable to load posts. Please try again.'}
+                  </p>
+                  {search && (
+                    <Link href="/blog" className="text-sm font-medium text-[var(--color-accent-600)] hover:underline">
+                      Browse all articles →
+                    </Link>
+                  )}
+                </div>
+              ) : (
+                <div className="grid sm:grid-cols-2 gap-6 mb-12">
+                  {posts.map((post) => {
+                    const date = new Date(post.date).toLocaleDateString('en-US', {
+                      year: 'numeric', month: 'short', day: 'numeric',
+                    });
+                    return (
+                      <Link
+                        key={`${post.source}-${post.slug}`}
+                        href={`/blog/${post.slug}`}
+                        className="group bg-white rounded-xl border border-[var(--color-neutral-200)] overflow-hidden hover:border-[var(--color-accent-400)] hover:shadow-md transition-all"
+                      >
+                        {post.image && (
+                          <div className="aspect-[16/9] overflow-hidden">
+                            <img
+                              src={post.image}
+                              alt={post.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        )}
+                        <div className="p-6">
+                          <div className="flex items-center gap-2 text-xs text-[var(--color-neutral-500)] mb-3">
+                            <time>{date}</time>
+                            <span>·</span>
+                            <span>{post.author}</span>
+                          </div>
+                          <h2 className="text-lg font-semibold text-[var(--color-primary-900)] mb-2 group-hover:text-[var(--color-accent-600)] transition-colors leading-snug line-clamp-2">
+                            {post.title}
+                          </h2>
+                          <p className="text-sm text-[var(--color-neutral-600)] leading-relaxed line-clamp-3">
+                            {post.excerpt}
+                          </p>
+                          <span className="inline-block mt-4 text-sm font-medium text-[var(--color-accent-600)] group-hover:underline">
+                            Read more →
+                          </span>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
               )}
-              <span className="text-sm text-[var(--color-neutral-500)] px-4">
-                Page {currentPage} of {totalPages}
-              </span>
-              {currentPage < totalPages && (
-                <Link
-                  href={`/blog?page=${currentPage + 1}`}
-                  className="h-10 px-4 rounded-lg border border-[var(--color-neutral-300)] text-sm font-medium text-[var(--color-primary-700)] hover:bg-[var(--color-neutral-100)] transition-colors"
-                >
-                  Next →
-                </Link>
+
+              {!search && totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2">
+                  {currentPage > 1 && (
+                    <Link href={`/blog?page=${currentPage - 1}`} className="h-10 px-4 rounded-lg border border-[var(--color-neutral-300)] text-sm font-medium text-[var(--color-primary-700)] hover:bg-[var(--color-neutral-100)] transition-colors">
+                      ← Previous
+                    </Link>
+                  )}
+                  <span className="text-sm text-[var(--color-neutral-500)] px-4">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  {currentPage < totalPages && (
+                    <Link href={`/blog?page=${currentPage + 1}`} className="h-10 px-4 rounded-lg border border-[var(--color-neutral-300)] text-sm font-medium text-[var(--color-primary-700)] hover:bg-[var(--color-neutral-100)] transition-colors">
+                      Next →
+                    </Link>
+                  )}
+                </div>
               )}
             </div>
-          )}
+
+            {/* Sidebar */}
+            <aside className="w-full lg:w-72 xl:w-80 shrink-0">
+              <div className="sticky top-24">
+                <BlogSubscribeForm />
+              </div>
+            </aside>
+
+          </div>
         </div>
       </section>
     </>

@@ -8,14 +8,14 @@ export const metadata: Metadata = {
 };
 
 const incomeTable = [
-  { members: '1', limit: '$194,940' },
-  { members: '2', limit: '$222,840' },
-  { members: '3', limit: '$250,740' },
-  { members: '4', limit: '$278,460' },
-  { members: '5', limit: '$300,780' },
-  { members: '6', limit: '$323,100' },
-  { members: '7', limit: '$345,420' },
-  { members: '8', limit: '$367,740' },
+  { members: '1', limit: '$206,640' },
+  { members: '2', limit: '$236,160' },
+  { members: '3', limit: '$265,680' },
+  { members: '4', limit: '$295,020' },
+  { members: '5', limit: '$318,780' },
+  { members: '6', limit: '$342,360' },
+  { members: '7', limit: '$365,940' },
+  { members: '8', limit: '$389,520' },
 ];
 
 export default function DcReducedRecordationPage() {
@@ -77,7 +77,7 @@ export default function DcReducedRecordationPage() {
           </h2>
           <div className="bg-white rounded-xl border border-[var(--color-neutral-200)] p-6 mb-6">
             <p className="text-[var(--color-neutral-700)] leading-relaxed">
-              <strong>Maximum sales price: $753,000.</strong> The property must qualify for DC&apos;s Homestead
+              <strong>Maximum sales price: $777,000.</strong> The property must qualify for DC&apos;s Homestead
               Deduction. Properties that fail to qualify for the Homestead Deduction will not receive the reduced
               recordation rate, and additional tax may apply.
             </p>

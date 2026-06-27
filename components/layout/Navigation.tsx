@@ -13,9 +13,9 @@ const navLinks = [
     href: '/agents',
     children: [
       { label: 'REAL Benefits™', href: '/real-benefits' },
-      { label: 'Save Up to $750', href: '/real-benefits#credit' },
+      { label: 'Save Up to $750', href: '/real-credit' },
       { label: 'REALegal™ Consultation', href: '/realegal' },
-      { label: 'Member Login', href: 'https://closeit.federaltitle.com' },
+      { label: 'Member Login', href: 'https://tools.federaltitle.com' },
       { label: 'Marketing Downloads', href: '/agents/marketing-downloads' },
     ],
   },

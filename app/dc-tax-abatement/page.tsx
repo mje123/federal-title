@@ -8,14 +8,14 @@ export const metadata: Metadata = {
 };
 
 const incomeTable = [
-  { members: '1', limit: '$80,100' },
-  { members: '2', limit: '$91,550' },
-  { members: '3', limit: '$102,950' },
-  { members: '4', limit: '$114,350' },
-  { members: '5', limit: '$123,500' },
-  { members: '6', limit: '$132,700' },
-  { members: '7', limit: '$141,850' },
-  { members: '8', limit: '$150,960' },
+  { members: '1', limit: '$89,760' },
+  { members: '2', limit: '$102,540' },
+  { members: '3', limit: '$115,380' },
+  { members: '4', limit: '$128,160' },
+  { members: '5', limit: '$138,420' },
+  { members: '6', limit: '$148,680' },
+  { members: '7', limit: '$158,940' },
+  { members: '8', limit: '$169,200' },
 ];
 
 export default function DcTaxAbatementPage() {
@@ -79,7 +79,7 @@ export default function DcTaxAbatementPage() {
                 Purchase Price Limit
               </h3>
               <p className="text-[var(--color-neutral-700)] leading-relaxed">
-                The maximum purchase price is <strong>$556,000</strong>. Properties above this threshold do not
+                The maximum purchase price is <strong>$576,000</strong>. Properties above this threshold do not
                 qualify for the Tax Abatement Program.
               </p>
             </div>

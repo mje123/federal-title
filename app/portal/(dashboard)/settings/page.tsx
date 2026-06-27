@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { SettingsForm } from './SettingsForm';
+import { MigrateButton } from './MigrateButton';
 
 export default async function SettingsPage() {
   const supabase = await createClient();
@@ -20,6 +21,14 @@ export default async function SettingsPage() {
         </p>
       </div>
       <SettingsForm initial={settings} />
+
+      <div className="mt-10">
+        <h2 className="text-lg font-bold text-[var(--color-primary-900)] mb-4">Blog Migration</h2>
+        <MigrateButton />
+        <p className="text-xs text-[var(--color-neutral-400)] mt-3">
+          Run this once before switching the domain. After migration, all blog posts will be served from the database — no dependency on the old WordPress site.
+        </p>
+      </div>
     </div>
   );
 }

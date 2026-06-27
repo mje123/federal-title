@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { createClient } from '@/lib/supabase/server';
 
 const WP_API = 'https://www.federaltitle.com/wp-json/wp/v2';
 
@@ -15,34 +16,126 @@ interface WPPost {
   };
 }
 
-async function getPost(slug: string): Promise<WPPost | null> {
+interface UnifiedPost {
+  title: string;
+  content: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+interface RelatedPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  cover_image?: string | null;
+}
+
+async function getRelatedPosts(currentSlug: string): Promise<RelatedPost[]> {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from('blog_posts')
+      .select('slug, title, excerpt, published_at, cover_image')
+      .eq('status', 'published')
+      .neq('slug', currentSlug)
+      .order('published_at', { ascending: false })
+      .limit(3);
+    return (data ?? []).map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      excerpt: p.excerpt ?? '',
+      date: p.published_at,
+      cover_image: p.cover_image,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+async function getSupabasePost(slug: string): Promise<UnifiedPost | null> {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from('blog_posts')
+      .select('title, content, excerpt, published_at, created_at, cover_image, author_name')
+      .eq('slug', slug)
+      .eq('status', 'published')
+      .single();
+    if (!data) return null;
+    return {
+      title: data.title,
+      content: data.content,
+      excerpt: data.excerpt ?? '',
+      date: data.published_at ?? data.created_at,
+      author: data.author_name ?? 'Federal Title',
+      image: data.cover_image ?? undefined,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function getWPPost(slug: string): Promise<UnifiedPost | null> {
   try {
     const res = await fetch(
       `${WP_API}/posts?slug=${slug}&_embed=author,wp:featuredmedia`,
       { next: { revalidate: 3600 } }
     );
     if (!res.ok) return null;
-    const posts = await res.json();
-    return posts[0] ?? null;
+    const posts: WPPost[] = await res.json();
+    const post = posts[0];
+    if (!post) return null;
+    const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0];
+    return {
+      title: post.title.rendered.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code))),
+      content: post.content.rendered,
+      excerpt: post.excerpt.rendered.replace(/<[^>]+>/g, '').trim(),
+      date: post.date,
+      author: post._embedded?.author?.[0]?.name ?? 'Federal Title',
+      image: featuredMedia?.source_url,
+      imageAlt: featuredMedia?.alt_text,
+    };
   } catch {
     return null;
   }
 }
 
+const BASE_URL = 'https://www.federaltitle.com';
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = (await getSupabasePost(slug)) ?? (await getWPPost(slug));
   if (!post) return { title: 'Post Not Found | Federal Title Blog' };
-  const plainExcerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim();
+  const description = post.excerpt.replace(/<[^>]+>/g, '').slice(0, 160);
   return {
-    title: `${post.title.rendered.replace(/&#\d+;/g, c => String.fromCharCode(parseInt(c.slice(2, -1))))} | Federal Title Blog`,
-    description: plainExcerpt.slice(0, 160),
+    title: `${post.title} | Federal Title Blog`,
+    description,
+    alternates: {
+      canonical: `${BASE_URL}/blog/${slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description,
+      url: `${BASE_URL}/blog/${slug}`,
+      type: 'article',
+      publishedTime: post.date,
+      authors: [post.author],
+      siteName: 'Federal Title & Escrow Company',
+      ...(post.image ? { images: [{ url: post.image, alt: post.title }] } : {}),
+    },
   };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const [post, related] = await Promise.all([
+    getSupabasePost(slug).then((p) => p ?? getWPPost(slug)),
+    getRelatedPosts(slug),
+  ]);
 
   if (!post) {
     return (
@@ -58,15 +151,35 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     );
   }
 
-  const author = post._embedded?.author?.[0]?.name ?? 'Federal Title';
-  const featuredImage = post._embedded?.['wp:featuredmedia']?.[0];
-  const date = new Date(post.date).toLocaleDateString('en-US', {
+  const { title, content, image, imageAlt, author, date: rawDate } = post;
+  const featuredImage = image ? { source_url: image, alt_text: imageAlt ?? title } : null;
+  const date = new Date(rawDate).toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   });
-  const title = post.title.rendered.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code)));
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description: post.excerpt.replace(/<[^>]+>/g, '').slice(0, 160),
+    author: { '@type': 'Person', name: author },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Federal Title & Escrow Company',
+      logo: { '@type': 'ImageObject', url: `${BASE_URL}/logo.png` },
+    },
+    datePublished: rawDate,
+    url: `${BASE_URL}/blog/${slug}`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/blog/${slug}` },
+    ...(featuredImage ? { image: { '@type': 'ImageObject', url: featuredImage.source_url } } : {}),
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       {/* Hero */}
       <section className="bg-[var(--color-primary-900)] py-16">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
@@ -76,8 +189,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <h1
             className="text-3xl lg:text-5xl font-bold text-white leading-tight mb-6"
             style={{ fontFamily: 'var(--font-playfair), serif' }}
-            dangerouslySetInnerHTML={{ __html: title }}
-          />
+          >
+            {title}
+          </h1>
           <div className="flex items-center gap-4 text-white/60 text-sm">
             <span>By {author}</span>
             <span>·</span>
@@ -104,7 +218,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
           <div
             className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-[var(--color-primary-900)] prose-a:text-[var(--color-accent-600)] prose-a:no-underline hover:prose-a:underline prose-strong:text-[var(--color-primary-900)]"
-            dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+            dangerouslySetInnerHTML={{ __html: content }}
           />
 
           <div className="mt-12 pt-8 border-t border-[var(--color-neutral-200)]">
@@ -117,6 +231,54 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         </div>
       </section>
+
+      {/* Related Articles */}
+      {related.length > 0 && (
+        <section className="py-16 bg-[var(--color-neutral-50)] border-t border-[var(--color-neutral-200)]">
+          <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
+            <h2
+              className="text-2xl font-bold text-[var(--color-primary-900)] mb-8"
+              style={{ fontFamily: 'var(--font-playfair), serif' }}
+            >
+              Related Articles
+            </h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {related.map((r) => (
+                <Link
+                  key={r.slug}
+                  href={`/blog/${r.slug}`}
+                  className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-[var(--color-neutral-200)] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  {r.cover_image ? (
+                    <img
+                      src={r.cover_image}
+                      alt={r.title}
+                      className="w-full h-40 object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-40 bg-gradient-to-br from-[var(--color-primary-100)] to-[var(--color-primary-200)] flex items-center justify-center">
+                      <span className="text-[var(--color-primary-400)] text-4xl font-serif">F</span>
+                    </div>
+                  )}
+                  <div className="p-5 flex flex-col flex-1">
+                    <time className="text-xs text-[var(--color-neutral-400)] mb-2">
+                      {new Date(r.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    </time>
+                    <h3 className="text-sm font-bold text-[var(--color-primary-900)] leading-snug mb-2 group-hover:text-[var(--color-accent-600)] transition-colors line-clamp-2">
+                      {r.title}
+                    </h3>
+                    {r.excerpt && (
+                      <p className="text-xs text-[var(--color-neutral-600)] leading-relaxed line-clamp-3 mt-auto">
+                        {r.excerpt.replace(/<[^>]+>/g, '').slice(0, 120)}…
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <section className="py-16 bg-[var(--color-primary-900)]">

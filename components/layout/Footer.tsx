@@ -74,23 +74,6 @@ export function Footer() {
               info@federaltitle.com
             </a>
 
-            {/* Locations list — matches footer on live site */}
-            <div className="mb-4">
-              <p className="text-white/40 text-xs uppercase tracking-widest font-semibold mb-3">Locations</p>
-              <ul className="space-y-1.5">
-                {locations.map((loc) => (
-                  <li key={loc.label}>
-                    <Link
-                      href={loc.href}
-                      className="text-sm text-white/70 hover:text-white uppercase tracking-wide transition-colors underline underline-offset-2 decoration-white/20 hover:decoration-white/60"
-                    >
-                      {loc.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
             <Link
               href="/realsafe"
               className="text-sm text-white/70 hover:text-white transition-colors"
@@ -133,7 +116,12 @@ export function Footer() {
                 </div>
               ))}
               <div>
-                <p className="text-sm font-semibold text-white/90">Fairfax, VA</p>
+                <Link
+                  href="/locations/fairfax-va"
+                  className="text-sm font-semibold text-white/90 hover:text-white transition-colors"
+                >
+                  Fairfax, VA
+                </Link>
                 <p className="text-xs text-white/50">3975 Fair Ridge Drive, Suite T25S-A</p>
                 <p className="text-xs text-white/50">Fairfax, VA 22033</p>
                 <span className="text-xs text-[var(--color-accent-400)]">Est. 2026 · New!</span>

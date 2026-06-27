@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { LicensingTabs } from './LicensingTabs';
 
 export const metadata: Metadata = {
   title: 'Licensing | Federal Title & Escrow Company',
@@ -57,6 +58,13 @@ export default function LicensingPage() {
               </table>
               <p className="text-xs text-[var(--color-neutral-500)] mt-2">*Virginia license is perpetual unless surrendered, suspended, or revoked.</p>
             </div>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold text-[var(--color-primary-900)] mb-6" style={{ fontFamily: 'var(--font-playfair), serif' }}>
+              Individual Title Producer Licenses
+            </h2>
+            <LicensingTabs />
           </div>
 
         </div>

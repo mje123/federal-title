@@ -51,6 +51,7 @@ export default function AgentsPage() {
                     icon: <DollarSign className="h-5 w-5" />,
                     title: 'Save Clients Up to $750',
                     desc: 'Every client you refer receives up to a $750 REAL Credit applied to our already low settlement fee.',
+                    href: '/real-credit',
                   },
                   {
                     icon: <Scale className="h-5 w-5" />,
@@ -68,7 +69,13 @@ export default function AgentsPage() {
                       {item.icon}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-[var(--color-primary-900)] mb-1">{item.title}</h3>
+                      {'href' in item ? (
+                        <Link href={item.href as string} className="font-semibold text-[var(--color-primary-900)] mb-1 hover:text-[var(--color-accent-600)] transition-colors block">
+                          {item.title} →
+                        </Link>
+                      ) : (
+                        <h3 className="font-semibold text-[var(--color-primary-900)] mb-1">{item.title}</h3>
+                      )}
                       <p className="text-[var(--color-neutral-600)] text-sm">{item.desc}</p>
                     </div>
                   </div>

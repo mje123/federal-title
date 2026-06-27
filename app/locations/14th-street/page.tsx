@@ -105,6 +105,50 @@ export default function FourteenthStreetPage() {
         secondaryAction={{ text: 'All Locations', href: '/locations' }}
         background="gradient"
       />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.federaltitle.com' },
+              { '@type': 'ListItem', position: 2, name: 'Locations', item: 'https://www.federaltitle.com/locations' },
+              { '@type': 'ListItem', position: 3, name: 'U Street / Logan Circle', item: 'https://www.federaltitle.com/locations/14th-street' },
+            ],
+          }),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'LegalService',
+            name: 'Federal Title & Escrow Company – U Street / Logan Circle',
+            url: 'https://www.federaltitle.com/locations/14th-street',
+            telephone: '+1-202-362-1500',
+            email: 'info@federaltitle.com',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: '1803 14th Street NW, Third Floor',
+              addressLocality: 'Washington',
+              addressRegion: 'DC',
+              postalCode: '20009',
+              addressCountry: 'US',
+            },
+            geo: { '@type': 'GeoCoordinates', latitude: 38.9189, longitude: -77.0317 },
+            parentOrganization: { '@type': 'LegalService', name: 'Federal Title & Escrow Company', url: 'https://www.federaltitle.com' },
+            areaServed: [
+              { '@type': 'City', name: 'Washington, DC' },
+              { '@type': 'Neighborhood', name: 'U Street' },
+              { '@type': 'Neighborhood', name: 'Logan Circle' },
+            ],
+          }),
+        }}
+      />
     </>
   );
 }

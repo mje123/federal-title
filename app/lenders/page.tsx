@@ -77,7 +77,7 @@ export default function LendersPage() {
               </h3>
               <div className="grid md:grid-cols-2 gap-3 mb-6">
                 {[
-                  { label: 'Accurate transfer/recordation taxes and settlement fees', href: 'https://federal-title-frontend.onrender.com/public/guaranteed-quote', external: true },
+                  { label: 'Accurate transfer/recordation taxes and settlement fees', href: '/quick-quote', external: false },
                   { label: "Buyer's Cash-To-Close Calculator", href: 'https://closeit.federaltitle.com', external: true },
                   { label: "Seller's Net Proceeds Calculator", href: 'https://closeit.federaltitle.com', external: true },
                   { label: 'Close It!™ mobile app for Closing Disclosures', href: 'https://closeit.federaltitle.com', external: true },

@@ -55,6 +55,49 @@ export default function FairfaxPage() {
       </section>
 
       <CTA title="Closing in Fairfax?" description="Get a guaranteed quote online or call (202) 362-1500." primaryAction={{ text: 'Get a Free Quote', href: '/quick-quote' }} secondaryAction={{ text: 'All Locations', href: '/locations' }} background="gradient" />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.federaltitle.com' },
+              { '@type': 'ListItem', position: 2, name: 'Locations', item: 'https://www.federaltitle.com/locations' },
+              { '@type': 'ListItem', position: 3, name: 'Fairfax, VA', item: 'https://www.federaltitle.com/locations/fairfax-va' },
+            ],
+          }),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'LegalService',
+            name: 'Federal Title & Escrow Company – Fairfax',
+            url: 'https://www.federaltitle.com/locations/fairfax-va',
+            telephone: '+1-202-362-1500',
+            email: 'info@federaltitle.com',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: '3975 Fair Ridge Drive, Suite T25S-A',
+              addressLocality: 'Fairfax',
+              addressRegion: 'VA',
+              postalCode: '22033',
+              addressCountry: 'US',
+            },
+            geo: { '@type': 'GeoCoordinates', latitude: 38.8697, longitude: -77.3863 },
+            parentOrganization: { '@type': 'LegalService', name: 'Federal Title & Escrow Company', url: 'https://www.federaltitle.com' },
+            areaServed: [
+              { '@type': 'City', name: 'Fairfax, VA' },
+              { '@type': 'AdministrativeArea', name: 'Northern Virginia' },
+            ],
+          }),
+        }}
+      />
     </>
   );
 }

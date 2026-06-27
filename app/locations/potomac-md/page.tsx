@@ -55,6 +55,49 @@ export default function PotomacPage() {
       </section>
 
       <CTA title="Ready to close in Potomac?" description="Get a guaranteed quote online or call (202) 362-1500." primaryAction={{ text: 'Get a Free Quote', href: '/quick-quote' }} secondaryAction={{ text: 'All Locations', href: '/locations' }} background="gradient" />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.federaltitle.com' },
+              { '@type': 'ListItem', position: 2, name: 'Locations', item: 'https://www.federaltitle.com/locations' },
+              { '@type': 'ListItem', position: 3, name: 'Potomac, MD', item: 'https://www.federaltitle.com/locations/potomac-md' },
+            ],
+          }),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'LegalService',
+            name: 'Federal Title & Escrow Company – Potomac',
+            url: 'https://www.federaltitle.com/locations/potomac-md',
+            telephone: '+1-202-362-1500',
+            email: 'info@federaltitle.com',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: '10000 Falls Road, Suite 101',
+              addressLocality: 'Potomac',
+              addressRegion: 'MD',
+              postalCode: '20854',
+              addressCountry: 'US',
+            },
+            geo: { '@type': 'GeoCoordinates', latitude: 39.0215, longitude: -77.2147 },
+            parentOrganization: { '@type': 'LegalService', name: 'Federal Title & Escrow Company', url: 'https://www.federaltitle.com' },
+            areaServed: [
+              { '@type': 'City', name: 'Potomac, MD' },
+              { '@type': 'AdministrativeArea', name: 'Montgomery County, MD' },
+            ],
+          }),
+        }}
+      />
     </>
   );
 }

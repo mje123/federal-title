@@ -105,6 +105,51 @@ export default function FriendshipHeightsPage() {
         secondaryAction={{ text: 'All Locations', href: '/locations' }}
         background="gradient"
       />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.federaltitle.com' },
+              { '@type': 'ListItem', position: 2, name: 'Locations', item: 'https://www.federaltitle.com/locations' },
+              { '@type': 'ListItem', position: 3, name: 'Friendship Heights / Chevy Chase', item: 'https://www.federaltitle.com/locations/friendship-heights' },
+            ],
+          }),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'LegalService',
+            name: 'Federal Title & Escrow Company – Friendship Heights / Chevy Chase',
+            url: 'https://www.federaltitle.com/locations/friendship-heights',
+            telephone: '+1-202-362-1500',
+            email: 'info@federaltitle.com',
+            foundingDate: '1996',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: '5481 Wisconsin Avenue, Suite D',
+              addressLocality: 'Chevy Chase',
+              addressRegion: 'MD',
+              postalCode: '20815',
+              addressCountry: 'US',
+            },
+            geo: { '@type': 'GeoCoordinates', latitude: 38.9607, longitude: -77.0883 },
+            parentOrganization: { '@type': 'LegalService', name: 'Federal Title & Escrow Company', url: 'https://www.federaltitle.com' },
+            areaServed: [
+              { '@type': 'City', name: 'Washington, DC' },
+              { '@type': 'City', name: 'Chevy Chase, MD' },
+              { '@type': 'State', name: 'Maryland' },
+            ],
+          }),
+        }}
+      />
     </>
   );
 }
