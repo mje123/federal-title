@@ -11,25 +11,6 @@ export const metadata: Metadata = {
 export default function QuickQuotePage() {
   return (
     <>
-      {/* Crawlable hero — indexed by search engines; iframe content is not */}
-      <section className="bg-[var(--color-primary-900)] text-white py-14">
-        <div className="container mx-auto px-6 text-center max-w-3xl">
-          <p className="text-[var(--color-accent-400)] font-semibold text-sm uppercase tracking-widest mb-3">
-            Free &amp; Instant
-          </p>
-          <h1
-            className="text-4xl lg:text-5xl font-bold mb-4"
-            style={{ fontFamily: 'var(--font-playfair), serif' }}
-          >
-            Get a Guaranteed Quote
-          </h1>
-          <p className="text-white/70 text-lg">
-            Instant, itemized closing costs for DC, Maryland &amp; Virginia purchases and refinances.
-            No hidden fees. No obligation. Order online and save up to $750 with REAL Benefits™.
-          </p>
-        </div>
-      </section>
-
       {/* Auto-resizing iframe embed */}
       <QuickQuoteEmbed />
 
