@@ -22,7 +22,15 @@ function LoginForm() {
     setLoading(true);
 
     const supabase = createClient();
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    let authError;
+    try {
+      const result = await supabase.auth.signInWithPassword({ email, password });
+      authError = result.error;
+    } catch {
+      setError('Connection error — please try again.');
+      setLoading(false);
+      return;
+    }
 
     if (authError) {
       setError('Invalid email or password.');
