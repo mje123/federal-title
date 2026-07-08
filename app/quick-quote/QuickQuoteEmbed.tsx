@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-const QUOTE_ORIGIN = 'https://federal-title-frontend.onrender.com';
+const QUOTE_ORIGIN = 'https://ftec.federaltitle.com';
 const QUOTE_SRC = `${QUOTE_ORIGIN}/public/guaranteed-quote`;
 
 export default function QuickQuoteEmbed() {
