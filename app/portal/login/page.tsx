@@ -21,35 +21,32 @@ function LoginForm() {
     setError('');
     setLoading(true);
 
-    const supabase = createClient();
-    let authError;
     try {
-      const result = await supabase.auth.signInWithPassword({ email, password });
-      authError = result.error;
+      const supabase = createClient();
+      const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (authError) {
+        setError('Invalid email or password.');
+        return;
+      }
+
+      // Check MFA status
+      const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+
+      if (aal?.nextLevel === 'aal2') {
+        const { data: factors } = await supabase.auth.mfa.listFactors();
+        const hasEnrolled = (factors?.totp?.length ?? 0) > 0;
+        router.push(hasEnrolled ? '/portal/mfa/verify' : '/portal/mfa/enroll');
+      } else {
+        router.push('/portal');
+      }
+
+      router.refresh();
     } catch {
       setError('Connection error — please try again.');
+    } finally {
       setLoading(false);
-      return;
     }
-
-    if (authError) {
-      setError('Invalid email or password.');
-      setLoading(false);
-      return;
-    }
-
-    // Check MFA status
-    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-
-    if (aal?.nextLevel === 'aal2') {
-      const { data: factors } = await supabase.auth.mfa.listFactors();
-      const hasEnrolled = (factors?.totp?.length ?? 0) > 0;
-      router.push(hasEnrolled ? '/portal/mfa/verify' : '/portal/mfa/enroll');
-    } else {
-      router.push('/portal');
-    }
-
-    router.refresh();
   }
 
   return (
