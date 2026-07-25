@@ -1,11 +1,13 @@
 import Link from 'next/link';
-import { CheckCircle2, ArrowRight } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import type { Metadata } from 'next';
+import FtEmbed from '@/components/FtEmbed';
 
 export const metadata: Metadata = {
   title: 'Order Closing Services | Federal Title & Escrow Company',
   description:
-    'Order title and settlement services online. Receive up to $750 in REAL Credits plus 2 hours of free REALegal™ consultation when you order through Federal Title.',
+    'Order title and settlement services online. Drop your sales contract and receive up to $750 in REAL Credits plus 2 hours of free REALegal™ consultation when you order through Federal Title.',
+  alternates: { canonical: 'https://www.federaltitle.com/order' },
 };
 
 const included = [
@@ -31,7 +33,9 @@ export default function OrderPage() {
             Order Closing Services
           </h1>
           <p className="text-lg text-white/70 max-w-xl mx-auto">
-            Order online and automatically receive up to $750 in REAL Credits toward your settlement fee — plus 2 hours of free REALegal™ consultation.
+            Drop your sales contract or start a refinance order below — order online and
+            automatically receive up to $750 in REAL Credits toward your closing costs, plus
+            2 hours of free REALegal™ consultation.
           </p>
         </div>
       </section>
@@ -39,43 +43,34 @@ export default function OrderPage() {
       <section className="py-16 bg-[var(--color-neutral-50)]">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-10">
-            {/* Main CTA */}
+            {/* Order form embed */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl border border-[var(--color-neutral-200)] p-8 lg:p-10">
+              <div className="bg-white rounded-2xl border border-[var(--color-neutral-200)] p-6 lg:p-8">
                 <h2
-                  className="text-2xl font-bold text-[var(--color-primary-900)] mb-4"
+                  className="text-2xl font-bold text-[var(--color-primary-900)] mb-2"
                   style={{ fontFamily: 'var(--font-playfair), serif' }}
                 >
-                  Ready to Place Your Order?
+                  Start Your Order
                 </h2>
-                <p className="text-[var(--color-neutral-600)] mb-8 leading-relaxed">
-                  Click below to open our secure order form. You&apos;ll receive a confirmation within 1 business hour, and your REAL Credit will be automatically applied at closing.
+                <p className="text-[var(--color-neutral-600)] mb-6 leading-relaxed">
+                  Purchasing? Drop your signed sales contract below and we&apos;ll take it from
+                  there. Refinancing? Switch to the Refinance tab. You&apos;ll receive a
+                  confirmation email right away, and your REAL Credit is automatically applied at
+                  closing.
                 </p>
 
-                <a
-                  href="https://tools.federaltitle.com/titleagents/orderservicen.aspx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 w-full justify-center py-4 px-6 rounded-lg bg-[var(--color-accent-600)] text-white font-semibold text-base hover:bg-[var(--color-accent-700)] transition-colors shadow-sm"
-                >
-                  Place My Order
-                  <ArrowRight className="h-5 w-5" />
-                </a>
+                <FtEmbed path="/public/order" title="Start Your Order | Federal Title & Escrow" />
+              </div>
 
-                <p className="text-xs text-center text-[var(--color-neutral-500)] mt-4">
-                  Secure order form. Your REAL Credit will be applied at closing.
-                </p>
-
-                <div className="mt-8 pt-8 border-t border-[var(--color-neutral-200)]">
-                  <p className="text-sm font-medium text-[var(--color-neutral-700)] mb-3">Prefer to order by phone or email?</p>
-                  <div className="flex flex-wrap gap-4 text-sm">
-                    <a href="tel:+12023621500" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
-                      (202) 362-1500
-                    </a>
-                    <a href="mailto:order@federaltitle.com" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
-                      order@federaltitle.com
-                    </a>
-                  </div>
+              <div className="mt-6 bg-white rounded-2xl border border-[var(--color-neutral-200)] p-6">
+                <p className="text-sm font-medium text-[var(--color-neutral-700)] mb-3">Prefer to order by phone or email?</p>
+                <div className="flex flex-wrap gap-4 text-sm">
+                  <a href="tel:+12023621500" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
+                    (202) 362-1500
+                  </a>
+                  <a href="mailto:order@federaltitle.com" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
+                    order@federaltitle.com
+                  </a>
                 </div>
               </div>
             </div>
