@@ -1,5 +1,3 @@
-import Link from 'next/link';
-import { CheckCircle2 } from 'lucide-react';
 import type { Metadata } from 'next';
 import FtEmbed from '@/components/FtEmbed';
 
@@ -10,107 +8,59 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.federaltitle.com/order' },
 };
 
-const included = [
-  'Up to $750 REAL Credit on settlement fee',
-  '2 hours of free REALegal™ consultation',
-  'Closing process tracker',
-  'Complete cash-to-close picture',
-  'Attorney-led closing',
-];
-
 export default function OrderPage() {
   return (
     <>
-      <section className="bg-[var(--color-primary-900)] text-white py-16">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-[var(--color-accent-400)] font-semibold text-sm uppercase tracking-widest mb-3">
-            REAL Benefits™ Included
-          </p>
-          <h1
-            className="text-4xl lg:text-5xl font-bold mb-4 font-display"
+      {/* Auto-resizing iframe embed */}
+      <FtEmbed path="/public/order" title="Start Your Order | Federal Title & Escrow" />
+
+      {/* Crawlable SEO content below the fold */}
+      <section className="py-16 bg-[var(--color-neutral-50)] border-t border-[var(--color-neutral-200)]">
+        <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
+          <h2
+            className="text-2xl font-bold text-[var(--color-primary-900)] mb-6"
             style={{ fontFamily: 'var(--font-playfair), serif' }}
           >
-            Order Closing Services
-          </h1>
-          <p className="text-lg text-white/70 max-w-xl mx-auto">
-            Drop your sales contract or start a refinance order below — order online and
-            automatically receive up to $750 in REAL Credits toward your closing costs, plus
-            2 hours of free REALegal™ consultation.
-          </p>
-        </div>
-      </section>
-
-      <section className="py-16 bg-[var(--color-neutral-50)]">
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-10">
-            {/* Order form embed */}
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl border border-[var(--color-neutral-200)] p-6 lg:p-8">
-                <h2
-                  className="text-2xl font-bold text-[var(--color-primary-900)] mb-2"
-                  style={{ fontFamily: 'var(--font-playfair), serif' }}
-                >
-                  Start Your Order
-                </h2>
-                <p className="text-[var(--color-neutral-600)] mb-6 leading-relaxed">
-                  Purchasing? Drop your signed sales contract below and we&apos;ll take it from
-                  there. Refinancing? Switch to the Refinance tab. You&apos;ll receive a
-                  confirmation email right away, and your REAL Credit is automatically applied at
-                  closing.
-                </p>
-
-                <FtEmbed path="/public/order" title="Start Your Order | Federal Title & Escrow" />
-              </div>
-
-              <div className="mt-6 bg-white rounded-2xl border border-[var(--color-neutral-200)] p-6">
-                <p className="text-sm font-medium text-[var(--color-neutral-700)] mb-3">Prefer to order by phone or email?</p>
-                <div className="flex flex-wrap gap-4 text-sm">
-                  <a href="tel:+12023621500" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
-                    (202) 362-1500
-                  </a>
-                  <a href="mailto:order@federaltitle.com" className="text-[var(--color-primary-700)] font-semibold hover:text-[var(--color-primary-900)] transition-colors">
-                    order@federaltitle.com
-                  </a>
-                </div>
-              </div>
+            About Ordering With Federal Title
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8 text-[var(--color-neutral-700)] leading-relaxed">
+            <div>
+              <h3 className="font-semibold text-[var(--color-primary-900)] mb-2">What's included</h3>
+              <p>
+                Order online and automatically receive up to $750 in REAL Credit™ toward your
+                closing costs, plus 2 hours of free REALegal™ consultation. You&apos;ll get a
+                closing process tracker and a complete cash-to-close picture from day one.
+              </p>
             </div>
-
-            {/* Sidebar */}
-            <div className="space-y-5">
-              <div className="bg-[var(--color-accent-50)] rounded-xl border border-[var(--color-accent-200)] p-6">
-                <h3 className="font-bold text-[var(--color-accent-900)] mb-3">
-                  Included with your order
-                </h3>
-                <div className="space-y-2.5">
-                  {included.map((item) => (
-                    <div key={item} className="flex items-start gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-[var(--color-accent-600)] shrink-0 mt-0.5" />
-                      <span className="text-sm text-[var(--color-accent-800)]">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl border border-[var(--color-neutral-200)] p-6">
-                <p className="text-sm font-medium text-[var(--color-neutral-700)] mb-1">Not ready to order?</p>
-                <p className="text-xs text-[var(--color-neutral-500)] mb-3">Get a guaranteed quote with no obligation.</p>
-                <Link
-                  href="/quick-quote"
-                  className="text-sm font-semibold text-[var(--color-primary-700)] hover:text-[var(--color-primary-900)] transition-colors"
-                >
-                  Just a Quote, Please »
-                </Link>
-              </div>
-
-              <div className="bg-white rounded-xl border border-[var(--color-neutral-200)] p-6">
-                <p className="text-sm font-medium text-[var(--color-neutral-900)] mb-1">Questions?</p>
-                <a href="tel:+12023621500" className="text-[var(--color-primary-700)] font-semibold text-lg block mb-1 hover:text-[var(--color-primary-900)] transition-colors">
+            <div>
+              <h3 className="font-semibold text-[var(--color-primary-900)] mb-2">Purchasing or refinancing</h3>
+              <p>
+                Purchasing? Drop your signed sales contract and we&apos;ll take it from there.
+                Refinancing? Switch to the Refinance tab above for a short manual form.
+                You&apos;ll receive a confirmation email right away.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-[var(--color-primary-900)] mb-2">Attorney-led closing</h3>
+              <p>
+                Every closing is led by a licensed attorney, not a processor. We handle
+                purchases, refinances, and seller-side transactions across Washington DC,
+                Maryland, and Northern Virginia.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-[var(--color-primary-900)] mb-2">Questions?</h3>
+              <p>
+                Call us at{' '}
+                <a href="tel:+12023621500" className="text-[var(--color-primary-700)] font-medium hover:underline">
                   (202) 362-1500
+                </a>{' '}
+                or email{' '}
+                <a href="mailto:order@federaltitle.com" className="text-[var(--color-primary-700)] font-medium hover:underline">
+                  order@federaltitle.com
                 </a>
-                <a href="mailto:info@federaltitle.com" className="text-xs text-[var(--color-neutral-500)] hover:text-[var(--color-primary-700)] transition-colors">
-                  info@federaltitle.com
-                </a>
-              </div>
+                . Our team is happy to help before or after you order.
+              </p>
             </div>
           </div>
         </div>
