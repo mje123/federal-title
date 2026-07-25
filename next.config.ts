@@ -38,9 +38,8 @@ const nextConfig: NextConfig = {
     const blogRedirects = await getWordPressBlogRedirects();
     return [
       // ── External tools ──────────────────────────────────────────────────
-      { source: '/order', destination: 'https://tools.federaltitle.com/titleagents/orderservicen.aspx', permanent: false },
-      { source: '/order-settlement-services', destination: 'https://tools.federaltitle.com/titleagents/orderservicen.aspx', permanent: true },
-      { source: '/order-title-services', destination: 'https://tools.federaltitle.com/titleagents/orderservicen.aspx', permanent: true },
+      { source: '/order-settlement-services', destination: '/order', permanent: true },
+      { source: '/order-title-services', destination: '/order', permanent: true },
 
       // ── Old /resources/* WordPress paths ────────────────────────────────
       { source: '/resources/firpta', destination: '/firpta', permanent: true },
