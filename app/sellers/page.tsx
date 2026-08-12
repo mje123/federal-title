@@ -104,6 +104,96 @@ export default function SellersPage() {
         </div>
       </section>
 
+      <section className="py-20 bg-[var(--color-neutral-50)]">
+        <div className="container mx-auto px-6 lg:px-8 max-w-4xl space-y-10">
+          <div>
+            <h2
+              className="text-4xl font-bold text-[var(--color-primary-900)] mb-4"
+              style={{ fontFamily: 'var(--font-playfair), serif' }}
+            >
+              Settlement Fees for Sellers
+            </h2>
+            <p className="text-[var(--color-neutral-600)] text-lg max-w-2xl">
+              Our fees are published online — no surprises, and you&apos;ll know exactly what you owe before closing day.
+            </p>
+          </div>
+
+          <div>
+            <div className="overflow-x-auto rounded-xl border border-[var(--color-neutral-200)] bg-white">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr className="bg-[var(--color-primary-900)] text-white">
+                    <th className="text-left p-4 font-semibold">Title Services</th>
+                    <th className="text-left p-4 font-semibold">Fee</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-[var(--color-neutral-200)]">
+                    <td className="p-4 font-semibold text-[var(--color-primary-900)]">
+                      Settlement Fee (all inclusive¹)
+                    </td>
+                    <td className="p-4 text-[var(--color-primary-900)] font-bold">$550</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-semibold text-[var(--color-primary-900)]">
+                      Mortgage Payoff / Release Procurement
+                    </td>
+                    <td className="p-4 text-[var(--color-primary-900)] font-bold">
+                      $185{' '}
+                      <span className="text-xs font-medium text-[var(--color-neutral-500)]">(per lien)</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-bold text-[var(--color-primary-900)] mb-1">Additional / Other Services</h3>
+            <p className="text-sm text-[var(--color-neutral-500)] mb-4">
+              These services are not required for all transactions.
+            </p>
+            <div className="overflow-x-auto rounded-xl border border-[var(--color-neutral-200)] bg-white">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr className="bg-[var(--color-neutral-100)]">
+                    <th className="text-left p-4 font-semibold text-[var(--color-primary-900)]">Service</th>
+                    <th className="text-left p-4 font-semibold text-[var(--color-primary-900)]">Fee</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { service: 'Mortgage Payoff / Release Procurement', fee: '$185' },
+                    { service: 'Title Clearing Services²', fee: '$200 (per hour)' },
+                    { service: 'Power of Attorney Document Preparation', fee: '$150' },
+                    { service: 'FIRPTA Withholding', fee: '$750' },
+                    { service: 'MD Non-Resident Withholding', fee: '$125' },
+                    { service: 'Deed Preparation (required for sale of property)', fee: '$250' },
+                    { service: 'Deed Preparation (if amending title, but not selling property)', fee: '$500' },
+                  ].map(({ service, fee }) => (
+                    <tr key={service} className="border-b border-[var(--color-neutral-100)]">
+                      <td className="p-4 text-[var(--color-neutral-700)]">{service}</td>
+                      <td className="p-4 font-semibold text-[var(--color-primary-900)]">{fee}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 border border-[var(--color-neutral-200)] space-y-3 text-sm text-[var(--color-neutral-600)]">
+            <p>
+              <strong>¹</strong> Includes notary fees, courier/wire costs and E-document storage/delivery, but does
+              not include additional services set forth above.
+            </p>
+            <p>
+              <strong>²</strong> In the event that liens require additional title clearance proceedings, upon
+              notification to the seller, an additional charge for additional services will be added.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <CTA
         title="Ready to close?"
         description="Get a guaranteed quote and see your estimated net proceeds before you commit."
