@@ -1,15 +1,14 @@
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import { LayoutShell } from '@/components/layout/LayoutShell';
 import { AnnouncementBanner } from '@/components/layout/AnnouncementBanner';
-
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
 });
-
 const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
@@ -17,7 +16,6 @@ const playfair = Playfair_Display({
   weight: ['400', '500', '600', '700', '800', '900'],
   style: ['normal', 'italic'],
 });
-
 export const metadata: Metadata = {
   title: {
     default: 'Federal Title & Escrow Company | DC, MD & VA Title Insurance',
@@ -42,7 +40,6 @@ export const metadata: Metadata = {
     site: '@dcTitleCompany',
   },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -54,6 +51,18 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-S3YPJW93XR"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-S3YPJW93XR');
+          `}
+        </Script>
         <LayoutShell banner={<AnnouncementBanner />}>{children}</LayoutShell>
       </body>
     </html>
