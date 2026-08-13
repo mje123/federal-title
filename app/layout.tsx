@@ -4,6 +4,7 @@ import Script from 'next/script';
 import './globals.css';
 import { LayoutShell } from '@/components/layout/LayoutShell';
 import { AnnouncementBanner } from '@/components/layout/AnnouncementBanner';
+import { ChatWidget } from '@/components/chat/ChatWidget';
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -64,6 +65,7 @@ export default function RootLayout({
           `}
         </Script>
         <LayoutShell banner={<AnnouncementBanner />}>{children}</LayoutShell>
+        <ChatWidget />
       </body>
     </html>
   );
