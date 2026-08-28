@@ -12,6 +12,13 @@ export const metadata: Metadata = {
 const WP_API = 'https://www.federaltitle.com/wp-json/wp/v2';
 const PER_PAGE = 12;
 
+// WordPress's database still points images at the old site domain, which no
+// longer serves /wp-content/ directly. The files themselves are still live
+// at the actual hosting domain, so we rewrite references to point there.
+function fixWpImageUrls(url: string): string {
+  return url.replaceAll('https://www.federaltitle.com/wp-content/', 'https://epkznu.com/wp-content/');
+}
+
 interface WPPost {
   slug: string;
   title: { rendered: string };
@@ -96,7 +103,9 @@ export default async function BlogPage({
     excerpt: post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 160),
     date: post.date,
     author: post._embedded?.author?.[0]?.name ?? 'Federal Title',
-    image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url,
+    image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url
+      ? fixWpImageUrls(post._embedded['wp:featuredmedia'][0].source_url)
+      : undefined,
     source: 'wordpress' as const,
   }));
 
@@ -121,7 +130,6 @@ export default async function BlogPage({
             Expert insights on DC, Maryland & Virginia real estate, title insurance, closing costs, and more.{!search && total > 0 && ` ${total} articles and counting.`}
           </p>
 
-          {/* Search bar */}
           <form method="get" action="/blog" className="max-w-xl mx-auto">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
@@ -147,7 +155,6 @@ export default async function BlogPage({
         <div className="container mx-auto px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12">
 
-            {/* Main posts column */}
             <div className="flex-1 min-w-0">
               {search && (
                 <div className="flex items-center justify-between mb-8">
@@ -236,7 +243,6 @@ export default async function BlogPage({
               )}
             </div>
 
-            {/* Sidebar */}
             <aside className="w-full lg:w-72 xl:w-80 shrink-0">
               <div className="sticky top-24">
                 <BlogSubscribeForm />
