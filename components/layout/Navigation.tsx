@@ -41,6 +41,8 @@ const navLinks = [
     children: [
       { label: 'Best Practices Summary', href: '/lenders/best-practices' },
       { label: 'View Licensing', href: '/lenders/licensing' },
+      { label: 'Insurance & Bonding', href: '/insurance' },
+    
     ],
   },
   {
