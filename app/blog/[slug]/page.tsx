@@ -4,6 +4,10 @@ import { createClient } from '@/lib/supabase/server';
 
 const WP_API = 'https://www.federaltitle.com/wp-json/wp/v2';
 
+function fixWpImageUrls(html: string): string {
+  return html.replaceAll('https://www.federaltitle.com/wp-content/', 'https://epkznu.com/wp-content/');
+}
+
 interface WPPost {
   slug: string;
   title: { rendered: string };
@@ -92,11 +96,11 @@ async function getWPPost(slug: string): Promise<UnifiedPost | null> {
     const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0];
     return {
       title: post.title.rendered.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code))),
-      content: post.content.rendered,
+      content: fixWpImageUrls(post.content.rendered),
       excerpt: post.excerpt.rendered.replace(/<[^>]+>/g, '').trim(),
       date: post.date,
       author: post._embedded?.author?.[0]?.name ?? 'Federal Title',
-      image: featuredMedia?.source_url,
+      image: featuredMedia?.source_url ? fixWpImageUrls(featuredMedia.source_url) : undefined,
       imageAlt: featuredMedia?.alt_text,
     };
   } catch {
@@ -180,7 +184,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
-      {/* Hero */}
       <section className="bg-[var(--color-primary-900)] py-16">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
           <Link href="/blog" className="text-white/60 hover:text-white text-sm mb-6 inline-flex items-center gap-1 transition-colors">
@@ -200,7 +203,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
       </section>
 
-      {/* Featured Image */}
       {featuredImage && (
         <div className="bg-[var(--color-neutral-100)]">
           <div className="container mx-auto px-6 lg:px-8 max-w-4xl py-8">
@@ -213,7 +215,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
       )}
 
-      {/* Content */}
       <section className="py-12 lg:py-16">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
           <div
@@ -232,7 +233,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
       </section>
 
-      {/* Related Articles */}
       {related.length > 0 && (
         <section className="py-16 bg-[var(--color-neutral-50)] border-t border-[var(--color-neutral-200)]">
           <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
@@ -280,7 +280,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </section>
       )}
 
-      {/* CTA */}
       <section className="py-16 bg-[var(--color-primary-900)]">
         <div className="container mx-auto px-6 lg:px-8 text-center max-w-2xl">
           <h2 className="text-2xl lg:text-3xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-playfair), serif' }}>
