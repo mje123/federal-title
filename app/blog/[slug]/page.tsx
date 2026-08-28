@@ -4,10 +4,6 @@ import { createClient } from '@/lib/supabase/server';
 
 const WP_API = 'https://www.federaltitle.com/wp-json/wp/v2';
 
-function fixWpImageUrls(html: string): string {
-  return html.replaceAll('https://www.federaltitle.com/wp-content/', 'https://epkznu.com/wp-content/');
-}
-
 interface WPPost {
   slug: string;
   title: { rendered: string };
@@ -96,11 +92,11 @@ async function getWPPost(slug: string): Promise<UnifiedPost | null> {
     const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0];
     return {
       title: post.title.rendered.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code))),
-      content: fixWpImageUrls(post.content.rendered),
+      content: post.content.rendered,
       excerpt: post.excerpt.rendered.replace(/<[^>]+>/g, '').trim(),
       date: post.date,
       author: post._embedded?.author?.[0]?.name ?? 'Federal Title',
-      image: featuredMedia?.source_url ? fixWpImageUrls(featuredMedia.source_url) : undefined,
+      image: featuredMedia?.source_url,
       imageAlt: featuredMedia?.alt_text,
     };
   } catch {
