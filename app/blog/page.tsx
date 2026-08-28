@@ -12,13 +12,6 @@ export const metadata: Metadata = {
 const WP_API = 'https://www.federaltitle.com/wp-json/wp/v2';
 const PER_PAGE = 12;
 
-// WordPress's database still points images at the old site domain, which no
-// longer serves /wp-content/ directly. The files themselves are still live
-// at the actual hosting domain, so we rewrite references to point there.
-function fixWpImageUrls(url: string): string {
-  return url.replaceAll('https://www.federaltitle.com/wp-content/', 'https://epkznu.com/wp-content/');
-}
-
 interface WPPost {
   slug: string;
   title: { rendered: string };
@@ -96,20 +89,16 @@ export default async function BlogPage({
     getWPPosts(currentPage, search),
   ]);
 
-  // Convert WP posts to unified format
   const wpPosts: UnifiedPost[] = wpRaw.map((post) => ({
     slug: post.slug,
     title: post.title.rendered.replace(/&#(\d+);/g, (_, c) => String.fromCharCode(parseInt(c))),
     excerpt: post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 160),
     date: post.date,
     author: post._embedded?.author?.[0]?.name ?? 'Federal Title',
-    image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url
-      ? fixWpImageUrls(post._embedded['wp:featuredmedia'][0].source_url)
-      : undefined,
+    image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url,
     source: 'wordpress' as const,
   }));
 
-  // Supabase posts go first (newest content), then WP posts
   const posts = [...supabasePosts, ...wpPosts];
   const total = supabasePosts.length + wpTotal;
 
