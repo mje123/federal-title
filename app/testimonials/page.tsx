@@ -31,7 +31,10 @@ interface PlaceResult {
 async function getGoogleReviews(): Promise<PlaceResult | null> {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
   const placeId = process.env.GOOGLE_PLACE_ID;
-  if (!apiKey || !placeId) return null;
+  if (!apiKey || !placeId) {
+    console.error('Google Places: missing env var(s)', { hasKey: !!apiKey, hasPlaceId: !!placeId });
+    return null;
+  }
 
   try {
     const res = await fetch(
@@ -44,9 +47,14 @@ async function getGoogleReviews(): Promise<PlaceResult | null> {
         next: { revalidate: 86400 },
       }
     );
-    if (!res.ok) return null;
+    if (!res.ok) {
+      const errorBody = await res.text().catch(() => 'unreadable');
+      console.error('Google Places: request failed', res.status, errorBody);
+      return null;
+    }
     return res.json();
-  } catch {
+  } catch (err) {
+    console.error('Google Places: fetch threw', err);
     return null;
   }
 }
@@ -112,7 +120,7 @@ export default async function TestimonialsPage() {
             <>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {place.reviews.map((review, i) => (
-                  <a
+                  
                     key={i}
                     href={review.googleMapsUri}
                     target="_blank"
@@ -156,7 +164,7 @@ export default async function TestimonialsPage() {
               </div>
 
               <div className="text-center">
-                <a
+                
                   href={place.googleMapsUri}
                   target="_blank"
                   rel="noopener noreferrer"
