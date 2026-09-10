@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
+import { Zap, ShieldCheck, Users, Star } from 'lucide-react';
 import QuickQuoteEmbed from './QuickQuoteEmbed';
 
 export const metadata: Metadata = {
@@ -8,11 +10,123 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.federaltitle.com/quick-quote' },
 };
 
+const whyUs = [
+  {
+    icon: Zap,
+    title: 'Fast & Guaranteed',
+    description: 'A detailed, itemized quote in under a minute.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Transparent Pricing',
+    description: 'No hidden fees. Know your costs upfront.',
+  },
+  {
+    icon: Users,
+    title: 'Attorney-Led Closings',
+    description: 'Experienced real estate attorneys in DC, MD & VA.',
+  },
+  {
+    icon: Star,
+    title: 'Trusted Since 1996',
+    description: 'Independent. Local. Committed to a better closing experience.',
+  },
+];
+
 export default function QuickQuotePage() {
   return (
     <>
-      {/* Auto-resizing iframe embed */}
-      <QuickQuoteEmbed />
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-white border-b border-[var(--color-neutral-200)]">
+        <div className="absolute inset-y-0 right-0 w-full lg:w-2/3">
+          <Image
+            src="/images/hero/dc-rowhouses-hq.jpg"
+            alt="Beautiful DC rowhouses near the Capitol"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-white/10" />
+        </div>
+        <div className="relative container mx-auto px-6 lg:px-8 py-16 lg:py-20">
+          <p className="text-[var(--color-accent-600)] font-semibold text-xs uppercase tracking-[0.2em] mb-4">
+            Fast. Accurate. Attorney-Led.
+          </p>
+          <h1
+            className="text-4xl lg:text-6xl font-bold text-[var(--color-primary-900)] mb-4 max-w-2xl leading-tight"
+            style={{ fontFamily: 'var(--font-playfair), serif' }}
+          >
+            Get your <em className="italic text-[var(--color-accent-600)]">guaranteed</em> quote.
+          </h1>
+          <p className="text-lg text-[var(--color-neutral-600)] max-w-xl">
+            A detailed, itemized quote in under a minute.
+          </p>
+        </div>
+      </section>
+
+      {/* Quote tool + sidebar */}
+      <section className="py-12 lg:py-16 bg-[var(--color-neutral-50)]">
+        <div className="container mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-[1fr_380px] gap-8 items-start">
+            <div>
+              <QuickQuoteEmbed />
+            </div>
+
+            <aside className="bg-white rounded-2xl border border-[var(--color-neutral-200)] p-8 lg:sticky lg:top-24">
+              <h2
+                className="text-xl font-bold text-[var(--color-primary-900)] mb-6"
+                style={{ fontFamily: 'var(--font-playfair), serif' }}
+              >
+                Why get a quote from us?
+              </h2>
+              <ul className="space-y-6">
+                {whyUs.map((item, i) => (
+                  <li key={item.title} className="flex gap-4">
+                    <div
+                      className={
+                        i === 0
+                          ? 'h-11 w-11 rounded-full flex items-center justify-center shrink-0 bg-[var(--color-accent-600)] text-white'
+                          : 'h-11 w-11 rounded-full flex items-center justify-center shrink-0 bg-white border-2 border-[var(--color-accent-600)] text-[var(--color-accent-600)]'
+                      }
+                    >
+                      <item.icon className="h-5 w-5" fill={item.icon === Star ? 'currentColor' : 'none'} />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-[var(--color-primary-900)] mb-1">{item.title}</p>
+                      <p className="text-sm text-[var(--color-neutral-600)] leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="my-8 border-t border-[var(--color-neutral-200)]" />
+
+              <p
+                className="italic text-center text-[var(--color-accent-700)] leading-relaxed"
+                style={{ fontFamily: 'var(--font-playfair), serif' }}
+              >
+                More than a title company.
+                <br />
+                A partner in your next move.
+              </p>
+
+              <div className="relative mt-8 h-40 rounded-xl overflow-hidden">
+                <Image
+                  src="/images/hero/dc-rowhouses-hq.jpg"
+                  alt="Historic DC rowhouses"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <p className="text-center text-sm text-[var(--color-neutral-500)] mt-4">
+                Serving DC <span className="mx-1">|</span> Maryland <span className="mx-1">|</span> Virginia
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
 
       {/* Crawlable SEO content below the fold */}
       <section className="py-16 bg-[var(--color-neutral-50)] border-t border-[var(--color-neutral-200)]">
