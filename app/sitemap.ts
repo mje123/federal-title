@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { WP_API } from '@/lib/wordpress';
 
 const BASE = 'https://www.federaltitle.com';
 
@@ -83,7 +84,7 @@ async function getSupabaseBlogEntries(): Promise<BlogEntry[]> {
 async function getWPBlogEntries(): Promise<BlogEntry[]> {
   try {
     const res = await fetch(
-      'https://www.federaltitle.com/wp-json/wp/v2/posts?per_page=100&_fields=slug,modified',
+      `${WP_API}/posts?per_page=100&_fields=slug,modified`,
       { next: { revalidate: 86400 } }
     );
     if (!res.ok) return [];

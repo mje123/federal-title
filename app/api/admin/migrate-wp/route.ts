@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-
-const WP_API = 'https://www.federaltitle.com/wp-json/wp/v2';
+import { WP_API, fixWpImageUrl } from '@/lib/wordpress';
 
 interface WPPost {
   slug: string;
@@ -62,7 +61,7 @@ export async function POST() {
         .replace(/<[^>]+>/g, '');
       const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 500);
       const author = post._embedded?.author?.[0]?.name ?? 'Federal Title';
-      const cover_image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url ?? null;
+      const cover_image = fixWpImageUrl(post._embedded?.['wp:featuredmedia']?.[0]?.source_url) ?? null;
       return {
         slug: post.slug,
         title,

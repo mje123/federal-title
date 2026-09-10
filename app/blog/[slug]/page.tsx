@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-
-const WP_API = 'https://www.federaltitle.com/wp-json/wp/v2';
+import { WP_API, fixWpImageUrl } from '@/lib/wordpress';
 
 interface WPPost {
   slug: string;
@@ -49,7 +48,7 @@ async function getRelatedPosts(currentSlug: string): Promise<RelatedPost[]> {
       title: p.title,
       excerpt: p.excerpt ?? '',
       date: p.published_at,
-      cover_image: p.cover_image,
+      cover_image: fixWpImageUrl(p.cover_image),
     }));
   } catch {
     return [];
@@ -72,7 +71,7 @@ async function getSupabasePost(slug: string): Promise<UnifiedPost | null> {
       excerpt: data.excerpt ?? '',
       date: data.published_at ?? data.created_at,
       author: data.author_name ?? 'Federal Title',
-      image: data.cover_image ?? undefined,
+      image: fixWpImageUrl(data.cover_image) ?? undefined,
     };
   } catch {
     return null;
@@ -96,7 +95,7 @@ async function getWPPost(slug: string): Promise<UnifiedPost | null> {
       excerpt: post.excerpt.rendered.replace(/<[^>]+>/g, '').trim(),
       date: post.date,
       author: post._embedded?.author?.[0]?.name ?? 'Federal Title',
-      image: featuredMedia?.source_url,
+      image: fixWpImageUrl(featuredMedia?.source_url),
       imageAlt: featuredMedia?.alt_text,
     };
   } catch {
@@ -180,6 +179,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+      {/* Hero */}
       <section className="bg-[var(--color-primary-900)] py-16">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
           <Link href="/blog" className="text-white/60 hover:text-white text-sm mb-6 inline-flex items-center gap-1 transition-colors">
@@ -199,6 +199,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
       </section>
 
+      {/* Featured Image */}
       {featuredImage && (
         <div className="bg-[var(--color-neutral-100)]">
           <div className="container mx-auto px-6 lg:px-8 max-w-4xl py-8">
@@ -211,6 +212,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
       )}
 
+      {/* Content */}
       <section className="py-12 lg:py-16">
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
           <div
@@ -229,6 +231,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
       </section>
 
+      {/* Related Articles */}
       {related.length > 0 && (
         <section className="py-16 bg-[var(--color-neutral-50)] border-t border-[var(--color-neutral-200)]">
           <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
@@ -276,6 +279,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </section>
       )}
 
+      {/* CTA */}
       <section className="py-16 bg-[var(--color-primary-900)]">
         <div className="container mx-auto px-6 lg:px-8 text-center max-w-2xl">
           <h2 className="text-2xl lg:text-3xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-playfair), serif' }}>

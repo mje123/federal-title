@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Search } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
+import { WP_API, fixWpImageUrl } from '@/lib/wordpress';
 import { BlogSubscribeForm } from './BlogSubscribeForm';
 
 export const metadata: Metadata = {
@@ -9,7 +10,6 @@ export const metadata: Metadata = {
   description: 'Expert insights on DC, Maryland & Virginia real estate, title insurance, closing costs, and more from the attorneys at Federal Title.',
 };
 
-const WP_API = 'https://www.federaltitle.com/wp-json/wp/v2';
 const PER_PAGE = 12;
 
 interface WPPost {
@@ -68,7 +68,7 @@ async function getSupabasePosts(search = ''): Promise<UnifiedPost[]> {
       excerpt: p.excerpt ?? '',
       date: p.published_at ?? p.created_at,
       author: p.author_name ?? 'Federal Title',
-      image: p.cover_image ?? undefined,
+      image: fixWpImageUrl(p.cover_image) ?? undefined,
       source: 'supabase' as const,
     }));
   } catch {
@@ -89,16 +89,18 @@ export default async function BlogPage({
     getWPPosts(currentPage, search),
   ]);
 
+  // Convert WP posts to unified format
   const wpPosts: UnifiedPost[] = wpRaw.map((post) => ({
     slug: post.slug,
     title: post.title.rendered.replace(/&#(\d+);/g, (_, c) => String.fromCharCode(parseInt(c))),
     excerpt: post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 160),
     date: post.date,
     author: post._embedded?.author?.[0]?.name ?? 'Federal Title',
-    image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url,
+    image: fixWpImageUrl(post._embedded?.['wp:featuredmedia']?.[0]?.source_url),
     source: 'wordpress' as const,
   }));
 
+  // Supabase posts go first (newest content), then WP posts
   const posts = [...supabasePosts, ...wpPosts];
   const total = supabasePosts.length + wpTotal;
 
@@ -119,6 +121,7 @@ export default async function BlogPage({
             Expert insights on DC, Maryland & Virginia real estate, title insurance, closing costs, and more.{!search && total > 0 && ` ${total} articles and counting.`}
           </p>
 
+          {/* Search bar */}
           <form method="get" action="/blog" className="max-w-xl mx-auto">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40 pointer-events-none" />
@@ -144,6 +147,7 @@ export default async function BlogPage({
         <div className="container mx-auto px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12">
 
+            {/* Main posts column */}
             <div className="flex-1 min-w-0">
               {search && (
                 <div className="flex items-center justify-between mb-8">
@@ -232,6 +236,7 @@ export default async function BlogPage({
               )}
             </div>
 
+            {/* Sidebar */}
             <aside className="w-full lg:w-72 xl:w-80 shrink-0">
               <div className="sticky top-24">
                 <BlogSubscribeForm />

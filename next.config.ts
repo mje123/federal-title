@@ -1,12 +1,34 @@
 import type { NextConfig } from 'next';
+import { readdirSync } from 'fs';
+import { join } from 'path';
+
+// Top-level app/ route folders (e.g. "about-us", "firpta") must never be
+// shadowed by a same-named WordPress blog slug — Next.js checks redirects
+// before the filesystem, so an unfiltered match would hijack a real page.
+function getReservedTopLevelRoutes(): Set<string> {
+  try {
+    return new Set(
+      readdirSync(join(process.cwd(), 'app'), { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name)
+    );
+  } catch {
+    return new Set();
+  }
+}
+
+// federaltitle.com now points at this app, so WordPress's own REST API is
+// only reachable at its original Hostinger host (see lib/wordpress.ts).
+const WP_API = 'https://darkslateblue-hedgehog-458764.hostingersite.com/wp-json/wp/v2';
 
 async function getWordPressBlogRedirects() {
+  const reserved = getReservedTopLevelRoutes();
   try {
     let allSlugs: string[] = [];
     let page = 1;
     while (true) {
       const res = await fetch(
-        `https://www.federaltitle.com/wp-json/wp/v2/posts?per_page=100&page=${page}&_fields=slug`,
+        `${WP_API}/posts?per_page=100&page=${page}&_fields=slug`,
         { signal: AbortSignal.timeout(10000) }
       );
       if (!res.ok) break;
@@ -17,11 +39,13 @@ async function getWordPressBlogRedirects() {
       if (page >= total) break;
       page++;
     }
-    return allSlugs.map((slug) => ({
-      source: `/${slug}`,
-      destination: `/blog/${slug}`,
-      permanent: true,
-    }));
+    return allSlugs
+      .filter((slug) => !reserved.has(slug))
+      .map((slug) => ({
+        source: `/${slug}`,
+        destination: `/blog/${slug}`,
+        permanent: true,
+      }));
   } catch {
     return [];
   }
@@ -118,18 +142,11 @@ const nextConfig: NextConfig = {
       { source: '/econsent', destination: '/remote-closing', permanent: true },
       { source: '/escrow-accounts', destination: '/homebuyers', permanent: true },
 
-      // ── Blog posts that live at root on old WordPress site ───────────────
-      { source: '/dcs-new-topa-law-rebalancing-expectations-for-neighbors-tenants-and-landlords-rental-act-effective-december-31-2025', destination: '/blog', permanent: true },
-      { source: '/do-they-really-have-authority-understanding-apparent-and-implied-authority-in-real-estate-transactions', destination: '/blog', permanent: true },
-      { source: '/estate-sales-in-d-c-a-costly-property-tax-surprise-to-watch', destination: '/blog', permanent: true },
-      { source: '/fear-not-you-did-not-just-sell-your-house-for-10', destination: '/blog', permanent: true },
-      { source: '/federal-title-featured-by-redfin', destination: '/blog', permanent: true },
-      { source: '/3-factors-choose-title-company', destination: '/blog', permanent: true },
-      { source: '/press-release-on-federal-titles-inaugural-holiday-giving-campaign', destination: '/press', permanent: true },
-      { source: '/nvar-contract-what-day-is-it', destination: '/blog', permanent: true },
-      { source: '/title-insurance-vs-homeowners-insurance-why-do-you-need-both-to-protect-your-home', destination: '/blog', permanent: true },
-      { source: '/a-revisit-of-marylands-first-time-homebuyer-transfer-tax-exemption', destination: '/blog', permanent: true },
-      { source: '/using-a-power-of-attorney-with-a-trust-q-a-for-sellers-and-listing-agents', destination: '/blog', permanent: true },
+      // Note: individual blog posts are NOT hardcoded here — every old
+      // WordPress article gets its own one-to-one redirect to /blog/:slug
+      // via the dynamic block below. Do not add per-article overrides that
+      // collapse a specific post to /blog or /press; that breaks the
+      // one-to-one mapping search engines have indexed.
       // Dynamic WordPress blog post redirects (fetched at build time)
       ...blogRedirects,
     ];
