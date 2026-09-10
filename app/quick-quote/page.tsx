@@ -37,8 +37,8 @@ export default function QuickQuotePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-white border-b border-[var(--color-neutral-200)]">
-        <div className="absolute inset-y-0 right-0 w-full lg:w-2/3">
+      <section className="relative overflow-hidden bg-white border-b border-[var(--color-neutral-200)] lg:h-[420px]">
+        <div className="absolute inset-y-0 right-0 w-full lg:w-1/2">
           <Image
             src="/images/hero/capitol-rowhouses-quote.png"
             alt="U.S. Capitol dome seen from a tree-lined DC rowhouse street"
@@ -48,12 +48,12 @@ export default function QuickQuotePage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-white/10" />
         </div>
-        <div className="relative container mx-auto px-6 lg:px-8 py-16 lg:py-20">
+        <div className="relative container mx-auto px-6 lg:px-8 py-16 lg:py-0 lg:h-full lg:flex lg:flex-col lg:justify-center">
           <p className="text-[var(--color-accent-600)] font-semibold text-xs uppercase tracking-[0.2em] mb-4">
             Fast. Accurate. Attorney-Led.
           </p>
           <h1
-            className="text-4xl lg:text-6xl font-bold text-[var(--color-primary-900)] mb-4 max-w-2xl leading-tight"
+            className="text-4xl lg:text-5xl font-bold text-[var(--color-primary-900)] mb-4 lg:whitespace-nowrap leading-tight"
             style={{ fontFamily: 'var(--font-playfair), serif' }}
           >
             Get your <em className="italic text-[var(--color-accent-600)]">guaranteed</em> quote.
@@ -160,27 +160,3 @@ export default function QuickQuotePage() {
               <p>
                 We provide quotes and closings for properties in Washington DC, all Maryland
                 counties, and Northern Virginia. Our attorneys are licensed across all three
-                jurisdictions and handle purchases, refinances, and seller-side transactions.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-[var(--color-primary-900)] mb-2">Questions?</h3>
-              <p>
-                Call us at{' '}
-                <a href="tel:+12023621500" className="text-[var(--color-primary-700)] font-medium hover:underline">
-                  (202) 362-1500
-                </a>{' '}
-                or email{' '}
-                <a href="mailto:info@federaltitle.com" className="text-[var(--color-primary-700)] font-medium hover:underline">
-                  info@federaltitle.com
-                </a>
-                . Our team is happy to walk through your quote or answer any questions before you
-                order.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
