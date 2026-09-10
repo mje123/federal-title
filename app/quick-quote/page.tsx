@@ -40,8 +40,8 @@ export default function QuickQuotePage() {
       <section className="relative overflow-hidden bg-white border-b border-[var(--color-neutral-200)]">
         <div className="absolute inset-y-0 right-0 w-full lg:w-2/3">
           <Image
-            src="/images/hero/dc-rowhouses-hq.jpg"
-            alt="Beautiful DC rowhouses near the Capitol"
+            src="/images/hero/capitol-rowhouses-quote.png"
+            alt="U.S. Capitol dome seen from a tree-lined DC rowhouse street"
             fill
             className="object-cover"
             priority
@@ -114,8 +114,8 @@ export default function QuickQuotePage() {
 
               <div className="relative mt-8 h-40 rounded-xl overflow-hidden">
                 <Image
-                  src="/images/hero/dc-rowhouses-hq.jpg"
-                  alt="Historic DC rowhouses"
+                  src="/images/hero/capitol-rowhouses-quote.png"
+                  alt="U.S. Capitol dome seen from a tree-lined DC rowhouse street"
                   fill
                   className="object-cover"
                 />
