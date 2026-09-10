@@ -114,8 +114,8 @@ export default function QuickQuotePage() {
 
               <div className="relative mt-8 h-40 rounded-xl overflow-hidden">
                 <Image
-                  src="/images/hero/capitol-rowhouses-quote.png"
-                  alt="U.S. Capitol dome seen from a tree-lined DC rowhouse street"
+                  src="/images/hero/rowhouses-sidebar.png"
+                  alt="Historic DC rowhouses on a tree-lined street"
                   fill
                   className="object-cover"
                 />
