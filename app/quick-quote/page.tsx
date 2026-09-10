@@ -37,7 +37,7 @@ export default function QuickQuotePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-white border-b border-[var(--color-neutral-200)] lg:h-[420px]">
+      <section className="relative overflow-hidden bg-white border-b border-[var(--color-neutral-200)] lg:h-[250px]">
         <div className="absolute inset-y-0 right-0 w-full lg:w-1/2">
           <Image
             src="/images/hero/capitol-rowhouses-quote.png"
