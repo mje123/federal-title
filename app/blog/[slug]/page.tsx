@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { WP_API, fixWpImageUrl } from '@/lib/wordpress';
+import { WP_API, fixWpImageUrl, fixWpContentImages } from '@/lib/wordpress';
 
 interface WPPost {
   slug: string;
@@ -91,7 +91,7 @@ async function getWPPost(slug: string): Promise<UnifiedPost | null> {
     const featuredMedia = post._embedded?.['wp:featuredmedia']?.[0];
     return {
       title: post.title.rendered.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code))),
-      content: post.content.rendered,
+      content: fixWpContentImages(post.content.rendered),
       excerpt: post.excerpt.rendered.replace(/<[^>]+>/g, '').trim(),
       date: post.date,
       author: post._embedded?.author?.[0]?.name ?? 'Federal Title',
