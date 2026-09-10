@@ -120,7 +120,7 @@ export default async function TestimonialsPage() {
             <>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {place.reviews.map((review, i) => (
-                  
+                  <a
                     key={i}
                     href={review.googleMapsUri}
                     target="_blank"
@@ -164,7 +164,7 @@ export default async function TestimonialsPage() {
               </div>
 
               <div className="text-center">
-                
+                <a
                   href={place.googleMapsUri}
                   target="_blank"
                   rel="noopener noreferrer"
