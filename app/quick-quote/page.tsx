@@ -160,3 +160,27 @@ export default function QuickQuotePage() {
               <p>
                 We provide quotes and closings for properties in Washington DC, all Maryland
                 counties, and Northern Virginia. Our attorneys are licensed across all three
+                jurisdictions and handle purchases, refinances, and seller-side transactions.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-[var(--color-primary-900)] mb-2">Questions?</h3>
+              <p>
+                Call us at{' '}
+                <a href="tel:+12023621500" className="text-[var(--color-primary-700)] font-medium hover:underline">
+                  (202) 362-1500
+                </a>{' '}
+                or email{' '}
+                <a href="mailto:info@federaltitle.com" className="text-[var(--color-primary-700)] font-medium hover:underline">
+                  info@federaltitle.com
+                </a>
+                . Our team is happy to walk through your quote or answer any questions before you
+                order.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
