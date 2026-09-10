@@ -53,7 +53,7 @@ export const teamMembers: TeamMember[] = [
     name: 'Tabitha Frenke',
     title: 'Settlement Processor',
     slug: 'tabitha-frenke',
-    image: '',
+    image: '/images/team/tabitha_frenke.jpg',
   },
   {
     name: 'Daniel Cox',
@@ -71,6 +71,18 @@ export const teamMembers: TeamMember[] = [
     name: 'Jessika Roberts',
     title: 'Post-Closing Assistant',
     slug: 'jessika-roberts',
+    image: '',
+  },
+  {
+    name: 'Susan Sawyer',
+    title: 'Senior Underwriter',
+    slug: 'susan-sawyer',
+    image: '',
+  },
+  {
+    name: 'Callie Iddings',
+    title: 'Settlement Processor',
+    slug: 'callie-iddings',
     image: '',
   },
 ];
