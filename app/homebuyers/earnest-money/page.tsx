@@ -4,16 +4,14 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Deposit Earnest Money | Federal Title & Escrow Company',
-  description: 'Deposit your earnest money quickly and securely via ZOCCAM mobile app. No fees, encrypted transmission, available 24/7.',
+  description: 'Deposit your earnest money quickly and securely via the ZOCCAM web app. No fees, encrypted transmission, available 24/7.',
 };
 
 const steps = [
-  { num: '1', text: 'Download ZOCCAM from your device\'s app store.' },
-  { num: '2', text: 'Register using your name, email, and license information (if applicable).' },
-  { num: '3', text: 'Verify your device via SMS PIN and create an 8-digit passcode (location services required).' },
-  { num: '4', text: 'Select "Capture" on the home screen, choose fund type, and select "Federal Title & Escrow."' },
-  { num: '5', text: 'Photograph the front and back of your check on a dark, well-lit, flat surface.' },
-  { num: '6', text: 'Funds transmit directly to Federal Title. Email confirmations are sent to all parties.' },
+  { num: '1', text: 'Register or sign in using a one-time passcode.' },
+  { num: '2', text: 'Follow the on-screen steps to enter property details, payment amount, and buyer info.' },
+  { num: '3', text: 'Create an Electronic Check by entering your bank details or pay by Paper Check using your phone\'s camera.' },
+  { num: '4', text: 'Funds transmit directly to Federal Title. Email confirmations are sent to all parties.' },
 ];
 
 export default function EarnestMoneyPage() {
@@ -43,7 +41,7 @@ export default function EarnestMoneyPage() {
               </h2>
               <ul className="space-y-4">
                 {[
-                  { title: 'Save time', desc: 'No physical check pickup or delivery needed.' },
+                  { title: 'Save time', desc: 'No app download required, no physical check required.' },
                   { title: 'Peace of mind', desc: 'Encrypted transmission — as secure as a bank deposit.' },
                   { title: '24/7 availability', desc: 'Deposit any time, any day.' },
                   { title: 'No fees', desc: 'No transaction fees charged to buyers.' },
@@ -62,8 +60,18 @@ export default function EarnestMoneyPage() {
 
             <div>
               <h2 className="text-2xl font-bold text-[var(--color-primary-900)] mb-6" style={{ fontFamily: 'var(--font-playfair), serif' }}>
-                How to Deposit in 6 Steps
+                How to Deposit in 4 Steps
               </h2>
+
+              <a
+                href="https://send.zoccam.com/home/escrow-deposit/18"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center h-11 px-6 mb-6 font-semibold rounded-lg bg-[var(--color-accent-600)] text-white hover:bg-[var(--color-accent-700)] transition-colors"
+              >
+                Deposit EMD
+              </a>
+
               <div className="space-y-4">
                 {steps.map((step) => (
                   <div key={step.num} className="flex gap-4 p-4 bg-[var(--color-neutral-50)] rounded-xl border border-[var(--color-neutral-200)]">
