@@ -9,13 +9,31 @@ export const metadata: Metadata = {
 
 const policies = [
   {
-    type: 'Fidelity Bond',
+    type: 'Fidelity Bond (Primary)',
     carrier: 'Sentinel Insurance Co.',
     pdfUrl: '/fidelity-bond.pdf',
-    limit: '$500,000',
-    aggregate: '$500,000',
+    limit: '$250,000',
+    aggregate: '$250,000',
     deductible: '$100',
-    expiration: '9/30/2026',
+    expiration: '9/30/2027',
+  },
+  {
+    type: 'Forgery (Fidelity Bond Rider)',
+    carrier: 'Sentinel Insurance Co.',
+    pdfUrl: '/fidelity-bond.pdf',
+    limit: '$25,000',
+    aggregate: '$25,000',
+    deductible: '—',
+    expiration: '9/30/2027',
+  },
+  {
+    type: 'Fidelity Bond (Excess)',
+    carrier: 'Travelers Casualty & Surety Company of America',
+    pdfUrl: '/fidelity-bond.pdf',
+    limit: '$250,000',
+    aggregate: '$250,000',
+    deductible: '—',
+    expiration: '9/30/2027',
   },
   {
     type: 'E&O / PLI',
