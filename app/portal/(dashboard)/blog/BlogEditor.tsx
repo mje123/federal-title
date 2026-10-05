@@ -5,9 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
-import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Placeholder from '@tiptap/extension-placeholder';
 import {
@@ -69,6 +67,7 @@ export function BlogEditor({ initial }: { initial?: Partial<Post> }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [saved, setSaved] = useState(false);
+  const [publishedAt, setPublishedAt] = useState<string | null>(initial?.published_at ?? null);
   const [uploading, setUploading] = useState(false);
   const [coverImage, setCoverImage] = useState<string | null>(initial?.cover_image ?? null);
   const [coverUploading, setCoverUploading] = useState(false);
@@ -76,15 +75,21 @@ export function BlogEditor({ initial }: { initial?: Partial<Post> }) {
   const coverInputRef = useRef<HTMLInputElement>(null);
 
   const editor = useEditor({
+    // Tiptap v3's StarterKit already bundles Link and Underline, so configure
+    // Link through it instead of registering a second copy.
     extensions: [
-      StarterKit,
-      Underline,
+      StarterKit.configure({
+        link: { openOnClick: false, HTMLAttributes: { class: 'text-[var(--color-accent-600)] underline' } },
+      }),
       Image.configure({ inline: false, allowBase64: false }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Link.configure({ openOnClick: false, HTMLAttributes: { class: 'text-[var(--color-accent-600)] underline' } }),
       Placeholder.configure({ placeholder: 'Start writing your post…' }),
     ],
     content: initial?.content ?? '',
+    immediatelyRender: false,
+    // v3 no longer re-renders on every transaction by default; the toolbar's
+    // active states and the word count depend on it.
+    shouldRerenderOnTransaction: true,
     editorProps: {
       attributes: {
         class: 'prose prose-lg max-w-none min-h-[500px] focus:outline-none prose-headings:font-bold prose-headings:text-neutral-900 prose-a:text-[var(--color-accent-600)] prose-strong:text-neutral-900 prose-img:rounded-xl',
@@ -139,46 +144,59 @@ export function BlogEditor({ initial }: { initial?: Partial<Post> }) {
     if (!slugManual) setSlug(toSlug(val));
   }
 
-  async function save(publish?: boolean) {
+  async function save(targetStatus: 'draft' | 'published') {
     setError('');
     setSaving(true);
     setSaved(false);
 
-    const content = editor?.getHTML() ?? '';
-    const targetStatus = publish ? 'published' : status;
-    const supabase = createClient();
+    try {
+      const content = editor?.getHTML() ?? '';
+      const supabase = createClient();
 
-    const payload = {
-      title,
-      slug,
-      excerpt,
-      content,
-      cover_image: coverImage,
-      status: targetStatus,
-      published_at: targetStatus === 'published' ? new Date().toISOString() : null,
-    };
+      // Keep the original publish date when re-saving an already-published post.
+      const nextPublishedAt =
+        targetStatus === 'published' ? (publishedAt ?? new Date().toISOString()) : null;
 
-    let err;
-    if (isNew) {
-      const { error: e } = await supabase.from('blog_posts').insert(payload);
-      err = e;
-    } else {
-      const { error: e } = await supabase
-        .from('blog_posts')
-        .update({ ...payload, updated_at: new Date().toISOString() })
-        .eq('id', initial!.id!);
-      err = e;
-    }
+      const payload = {
+        title,
+        slug,
+        excerpt,
+        content,
+        cover_image: coverImage,
+        status: targetStatus,
+        published_at: nextPublishedAt,
+      };
 
-    setSaving(false);
-    if (err) { setError(err.message); return; }
+      const { error: err } = isNew
+        ? await supabase.from('blog_posts').insert(payload)
+        : await supabase
+            .from('blog_posts')
+            .update({ ...payload, updated_at: new Date().toISOString() })
+            .eq('id', initial!.id!);
 
-    if (isNew) {
-      router.push('/portal/blog');
-    } else {
-      setSaved(true);
-      if (publish) setStatus('published');
-      router.refresh();
+      if (err) {
+        if (err.code === '23505') {
+          setError('A post with this URL slug already exists. Change the slug and try again.');
+        } else if (err.code === '42501') {
+          setError(`Permission denied (${err.message}). Try signing out and back in, completing 2FA.`);
+        } else {
+          setError(err.message);
+        }
+        return;
+      }
+
+      if (isNew) {
+        router.push('/portal/blog');
+      } else {
+        setStatus(targetStatus);
+        setPublishedAt(nextPublishedAt);
+        setSaved(true);
+        router.refresh();
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong while saving. Please try again.');
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -220,20 +238,19 @@ export function BlogEditor({ initial }: { initial?: Partial<Post> }) {
                 <CheckCircle2 className="h-3.5 w-3.5" /> Saved
               </span>
             )}
-            {error && <span className="text-xs text-red-500 mr-1 max-w-[200px] truncate">{error}</span>}
 
             <button
-              onClick={() => save()}
+              onClick={() => save(status)}
               disabled={saving || !title || !slug}
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-neutral-200 bg-white text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-all disabled:opacity-40 shadow-sm"
             >
               <Save className="h-3.5 w-3.5" />
-              {saving ? 'Saving…' : 'Save draft'}
+              {saving ? 'Saving…' : status === 'published' ? 'Save changes' : 'Save draft'}
             </button>
 
             {status !== 'published' ? (
               <button
-                onClick={() => save(true)}
+                onClick={() => save('published')}
                 disabled={saving || !title || !slug}
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[var(--color-primary-700)] text-white text-sm font-semibold hover:bg-[var(--color-primary-900)] transition-all disabled:opacity-40 shadow-sm"
               >
@@ -242,7 +259,7 @@ export function BlogEditor({ initial }: { initial?: Partial<Post> }) {
               </button>
             ) : (
               <button
-                onClick={() => { setStatus('draft'); save(); }}
+                onClick={() => save('draft')}
                 disabled={saving}
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-neutral-200 bg-white text-sm font-medium text-neutral-600 hover:bg-neutral-50 transition-all disabled:opacity-40 shadow-sm"
               >
@@ -251,6 +268,11 @@ export function BlogEditor({ initial }: { initial?: Partial<Post> }) {
             )}
           </div>
         </div>
+        {error && (
+          <div role="alert" className="bg-red-50 border-t border-red-200 text-red-700 text-sm px-6 py-2.5">
+            <div className="max-w-5xl mx-auto">{error}</div>
+          </div>
+        )}
       </div>
 
       {/* Cover image area */}

@@ -8,7 +8,7 @@ export default async function EditPost({ params }: { params: Promise<{ id: strin
 
   const { data: post } = await supabase
     .from('blog_posts')
-    .select('id, title, slug, excerpt, content, status, published_at')
+    .select('id, title, slug, excerpt, content, cover_image, status, published_at')
     .eq('id', id)
     .single();
 
