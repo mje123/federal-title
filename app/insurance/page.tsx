@@ -42,7 +42,7 @@ const policies = [
     limit: '$2,000,000',
     aggregate: '$2,000,000',
     deductible: '$15,000',
-    expiration: '10/8/2026',
+    expiration: '10/8/2027',
   },
   {
     type: 'Surety Bond (DC)',
@@ -82,12 +82,12 @@ const policies = [
   },
   {
     type: 'Cyber Protection',
-    carrier: 'Hartford Fire Insurance Co.',
+    carrier: 'Twin City Fire Insurance Company',
     pdfUrl: '/cyber-protection.pdf',
-    limit: '$2,000,000',
-    aggregate: '$2,000,000',
+    limit: '$1,000,000',
+    aggregate: '$1,000,000',
     deductible: '—',
-    expiration: '9/30/2026',
+    expiration: '10/30/2027',
   },
 ];
 
