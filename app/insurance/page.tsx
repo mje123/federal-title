@@ -75,10 +75,10 @@ const policies = [
     type: 'Commercial Liability Coverage',
     carrier: 'Sentinel Insurance Co.',
     pdfUrl: '/commercial-liability.pdf',
-    limit: '$500,000',
-    aggregate: '$500,000',
+    limit: '$2,000,000',
+    aggregate: '$4,000,000',
     deductible: '—',
-    expiration: '9/30/2026',
+    expiration: '9/30/2027',
   },
   {
     type: 'Cyber Protection',
