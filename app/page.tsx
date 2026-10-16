@@ -1,5 +1,4 @@
 import {
-  DollarSign,
   Shield,
   Award,
   CheckCircle2,
@@ -46,11 +45,20 @@ const features = [
     link: { text: 'Protect Yourself »', href: '/realsafe' },
   },
   {
-    icon: <DollarSign className="h-6 w-6" />,
-    title: 'Complete Cash-to-Close Picture',
-    description:
-      'Get a complete, upfront view of all costs before closing day—no surprises, no hidden fees.',
-    link: { text: 'Get a Quote', href: '/quick-quote' },
+    image: {
+      src: '/images/features/closeit-logo.png',
+      alt: 'Close It! — A Federal Title Innovation',
+      href: 'https://closeit.federaltitle.com/',
+    },
+    title: 'Close It! Closing Cost Calculator',
+    description: (
+      <>
+        Buying or selling? Know your numbers before you close. Our proprietary Close It! app
+        instantly estimates <strong>cash to close for buyers</strong> and{' '}
+        <strong>net proceeds for sellers</strong>—free, fast, and easy to use.
+      </>
+    ),
+    link: { text: 'Calculate Your Closing Costs', href: 'https://closeit.federaltitle.com/' },
   },
   {
     icon: <Shield className="h-6 w-6" />,
