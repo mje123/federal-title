@@ -9,9 +9,9 @@ import { cn } from '@/lib/utils';
 
 interface Feature {
   icon?: ReactNode;
-  image?: { src: string; alt: string; rounded?: boolean };
+  image?: { src: string; alt: string; rounded?: boolean; href?: string };
   title: string;
-  description: string;
+  description: ReactNode;
   link?: { text: string; href: string };
 }
 
@@ -22,6 +22,25 @@ interface FeatureGridProps {
   features: Feature[];
   columns?: 2 | 3 | 4;
   background?: 'white' | 'gray';
+}
+
+function FeatureImage({ image }: { image: NonNullable<Feature['image']> }) {
+  const img = (
+    <Image
+      src={image.src}
+      alt={image.alt}
+      width={image.rounded ? 80 : 160}
+      height={image.rounded ? 80 : 56}
+      className={cn('object-contain', image.rounded && 'rounded-full')}
+    />
+  );
+  return image.href ? (
+    <Link href={image.href} aria-label={image.alt} className="block">
+      {img}
+    </Link>
+  ) : (
+    img
+  );
 }
 
 export function FeatureGrid({
@@ -90,13 +109,7 @@ export function FeatureGrid({
             >
               {feature.image ? (
                 <div className={cn("mb-5 flex items-center justify-center", feature.image.rounded ? "h-20 w-20 mx-auto" : "h-14")}>
-                  <Image
-                    src={feature.image.src}
-                    alt={feature.image.alt}
-                    width={feature.image.rounded ? 80 : 160}
-                    height={feature.image.rounded ? 80 : 56}
-                    className={cn("object-contain", feature.image.rounded && "rounded-full")}
-                  />
+                  <FeatureImage image={feature.image} />
                 </div>
               ) : (
                 <div className="h-12 w-12 rounded-lg bg-[var(--color-primary-100)] text-[var(--color-primary-700)] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
