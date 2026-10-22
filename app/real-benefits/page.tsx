@@ -133,7 +133,7 @@ export default function RealBenefitsPage() {
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <a
-                href="https://tools.federaltitle.com"
+                href="https://ftec.federaltitle.com/signup/agent"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 rounded-lg bg-[var(--color-primary-700)] text-white font-semibold hover:bg-[var(--color-primary-900)] transition-colors"
