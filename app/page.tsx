@@ -28,7 +28,7 @@ const features = [
     title: 'Mobile Fund Deliveries',
     description:
       'Send your earnest money checks quickly and securely, directly from your smart phone.',
-    link: { text: 'Learn More', href: '/deposit-earnest-money' },
+    link: { text: 'Learn More', href: '/homebuyers/earnest-money' },
   },
   {
     image: { src: '/images/features/real-online-closings.jpg', alt: 'REAL Online Closings - Powered by Stavvy' },
