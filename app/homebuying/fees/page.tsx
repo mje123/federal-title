@@ -5,7 +5,6 @@ export default function HomebuyingFeesPage() {
   const [activeTab, setActiveTab] = useState<'dc' | 'md' | 'va'>('dc');
   const included = [
     'Electronic Storage + Access',
-    'Closing Protection Letter (CPL)',
     'Courier Costs',
     'Tax Certificate',
     'Recording Service (if applicable)',
