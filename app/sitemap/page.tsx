@@ -24,7 +24,7 @@ const sections = [
       { label: 'REAL Benefits™', href: '/real-benefits' },
       { label: 'REALegal™ Consultation', href: '/realegal' },
       { label: 'Marketing Downloads', href: '/agents/marketing-downloads' },
-      { label: 'Member Login', href: 'https://tools.federaltitle.com' },
+      { label: 'Member Login', href: 'https://ftec.federaltitle.com/signup/agent' },
     ],
   },
   {

@@ -48,7 +48,7 @@ export default function MarketingDownloadsPage() {
                 <h3 className="font-semibold text-[var(--color-primary-900)] mb-2 leading-snug">{item.title}</h3>
                 <p className="text-sm text-[var(--color-neutral-600)] mb-4 leading-relaxed">{item.description}</p>
                 <a
-                  href="https://tools.federaltitle.com"
+                  href="https://ftec.federaltitle.com/signup/agent"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-medium text-[var(--color-accent-600)] hover:text-[var(--color-accent-700)] transition-colors"
@@ -71,7 +71,7 @@ export default function MarketingDownloadsPage() {
               <Link href="/real-benefits" className="inline-flex items-center justify-center h-12 px-8 font-semibold rounded-lg bg-[var(--color-accent-600)] text-white hover:bg-[var(--color-accent-700)] transition-colors">
                 Join REAL Benefits™
               </Link>
-              <a href="https://tools.federaltitle.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center h-12 px-8 font-medium rounded-lg border-2 border-white/30 text-white hover:bg-white/10 transition-colors">
+              <a href="https://ftec.federaltitle.com/signup/agent" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center h-12 px-8 font-medium rounded-lg border-2 border-white/30 text-white hover:bg-white/10 transition-colors">
                 Member Login
               </a>
             </div>

@@ -15,7 +15,7 @@ const navLinks = [
       { label: 'REAL Benefits™', href: '/real-benefits' },
       { label: 'Save Up to $750', href: '/real-credit' },
       { label: 'REALegal™ Consultation', href: '/realegal' },
-      { label: 'Member Login', href: 'https://tools.federaltitle.com' },
+      { label: 'Member Login', href: 'https://ftec.federaltitle.com/signup/agent' },
       { label: 'Marketing Downloads', href: '/agents/marketing-downloads' },
     ],
   },
