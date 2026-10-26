@@ -141,7 +141,7 @@ export default function RealBenefitsPage() {
                 Sign Up
               </a>
               <a
-                href="https://tools.federaltitle.com"
+                href="https://ftec.federaltitle.com/login"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 rounded-lg border-2 border-[var(--color-primary-300)] text-[var(--color-primary-700)] font-semibold hover:bg-[var(--color-primary-50)] transition-colors"
